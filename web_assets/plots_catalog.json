@@ -1,0 +1,434 @@
+[
+  {
+    "filename": "Comparison_cell13_out0.png",
+    "model": "Comparison",
+    "cell_idx": 13,
+    "section": "CELL 6 \u2500\u2500 Bar Chart: Accuracy Comparison",
+    "code_title": "ax.set_title(\"Model Accuracy Comparison \u2014 Test Set\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 32.0
+  },
+  {
+    "filename": "Comparison_cell15_out0.png",
+    "model": "Comparison",
+    "cell_idx": 15,
+    "section": "CELL 7 \u2500\u2500 Grouped Bar Chart: Accuracy / Precision / Recall / F1",
+    "code_title": "ax.set_title(\"Overall Performance Metrics Across All Models\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 38.1
+  },
+  {
+    "filename": "Comparison_cell17_out0.png",
+    "model": "Comparison",
+    "cell_idx": 17,
+    "section": "CELL 8 \u2500\u2500 Inference Speed Comparison",
+    "code_title": "ax.set_title(\"Inference Latency Comparison (CPU/GPU)\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 27.7
+  },
+  {
+    "filename": "Comparison_cell19_out0.png",
+    "model": "Comparison",
+    "cell_idx": 19,
+    "section": "CELL 9 \u2500\u2500 Radar / Spider Chart: All 4 Metrics per Model",
+    "code_title": "ax.set_title(\"Radar Chart: Balanced Performance Profile\", fontsize=14, fontweight=\"bold\", y=1.08)",
+    "size_kb": 103.0
+  },
+  {
+    "filename": "Comparison_cell21_out0.png",
+    "model": "Comparison",
+    "cell_idx": 21,
+    "section": "CELL 10 \u2500\u2500 Confusion Matrices for All Models (side by side)",
+    "code_title": "ax.set_title(f\"{name}\\n(Acc: {m['accuracy']*100:.1f}%)\", fontsize=11, fontweight=\"bold\")",
+    "size_kb": 30.9
+  },
+  {
+    "filename": "Comparison_cell23_out0.png",
+    "model": "Comparison",
+    "cell_idx": 23,
+    "section": "CELL 11 \u2500\u2500 Per-Class F1 Score Heatmap  (Models \u00d7 Classes)",
+    "code_title": "plt.title(\"Per-Class F1 Score Comparison Across Models\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 137.6
+  },
+  {
+    "filename": "Comparison_cell25_out0.png",
+    "model": "Comparison",
+    "cell_idx": 25,
+    "section": "CELL 12 \u2500\u2500 Accuracy vs Inference Speed Scatter Plot",
+    "code_title": "ax.set_title(\"Accuracy vs. Inference Speed Trade-off\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 40.0
+  },
+  {
+    "filename": "Comparison_cell32_out0.png",
+    "model": "Comparison",
+    "cell_idx": 32,
+    "section": "Experiment: Effect of Image Degradations on Model Classification",
+    "code_title": "fig.suptitle(f\"DIP Image Quality Conditions: Test Sample ({CLASS_NAMES[demo_batch_lbls[0]]})\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 466.9
+  },
+  {
+    "filename": "CustomCNN_cell11_out0.png",
+    "model": "CustomCNN",
+    "cell_idx": 11,
+    "section": "CELL 4 \u2500\u2500 Hyper-parameters & Data Loaders",
+    "code_title": "fig.suptitle(f\"DIP Spatial Resizing Analysis: {class_folder_name}\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 336.4
+  },
+  {
+    "filename": "CustomCNN_cell13_out0.png",
+    "model": "CustomCNN",
+    "cell_idx": 13,
+    "section": "CELL 5 \u2500\u2500 Explore: Sample Images",
+    "code_title": "plt.suptitle(\"Training Samples\", fontsize=16, fontweight=\"bold\")",
+    "size_kb": 1389.9
+  },
+  {
+    "filename": "CustomCNN_cell15_out0.png",
+    "model": "CustomCNN",
+    "cell_idx": 15,
+    "section": "DIP Demonstration: Digital Image Representation and Intensity Analysis",
+    "code_title": "fig.suptitle(\"DIP Analysis: Spatial Color Representation & Pixel Intensity Distributions\", fontsize=15, fontweight=\"bold\")",
+    "size_kb": 733.8
+  },
+  {
+    "filename": "CustomCNN_cell17_out0.png",
+    "model": "CustomCNN",
+    "cell_idx": 17,
+    "section": "CELL 6 \u2500\u2500 Class Distribution",
+    "code_title": "ax.set_title(\"Class Distribution across Splits\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 60.1
+  },
+  {
+    "filename": "CustomCNN_cell20_out0.png",
+    "model": "CustomCNN",
+    "cell_idx": 20,
+    "section": "CELL 7 \u2500\u2500 Data Augmentation",
+    "code_title": "plt.suptitle(\"Augmented Versions of One Image\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 421.2
+  },
+  {
+    "filename": "CustomCNN_cell21_out0.png",
+    "model": "CustomCNN",
+    "cell_idx": 21,
+    "section": "CELL 7 \u2500\u2500 Data Augmentation",
+    "code_title": "fig.suptitle(\"DIP: Isolated Geometric and Intensity Transformations\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 861.4
+  },
+  {
+    "filename": "CustomCNN_cell26_out0.png",
+    "model": "CustomCNN",
+    "cell_idx": 26,
+    "section": "DIP Demonstration: Classical Spatial Filtering and Edge Detection",
+    "code_title": "fig.suptitle(\"Classical DIP Spatial Filtering Demonstration (Educational Comparison)\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 516.0
+  },
+  {
+    "filename": "CustomCNN_cell31_out0.png",
+    "model": "CustomCNN",
+    "cell_idx": 31,
+    "section": "CELL 10 \u2500\u2500 Training Curves",
+    "code_title": "fig.suptitle(\"Custom CNN \u2014 Training Curves\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 63.7
+  },
+  {
+    "filename": "CustomCNN_cell37_out1.png",
+    "model": "CustomCNN",
+    "cell_idx": 37,
+    "section": "CELL 12 \u2500\u2500 Confusion Matrix & Classification Report",
+    "code_title": "plt.title(\"Confusion Matrix \u2014 Custom CNN (Test Set)\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 218.5
+  },
+  {
+    "filename": "CustomCNN_cell39_out0.png",
+    "model": "CustomCNN",
+    "cell_idx": 39,
+    "section": "CELL 13 \u2500\u2500 Per-Class Accuracy Bar Chart",
+    "code_title": "plt.ylabel(\"Accuracy (%)\"); plt.title(\"Per-Class Accuracy \u2014 Custom CNN\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 72.3
+  },
+  {
+    "filename": "CustomCNN_cell41_out0.png",
+    "model": "CustomCNN",
+    "cell_idx": 41,
+    "section": "CELL 14 \u2500\u2500 Sample Predictions Grid (Green = Correct, Red = Wrong)",
+    "code_title": "plt.suptitle(\"Sample Predictions \u2014 Custom CNN\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 493.9
+  },
+  {
+    "filename": "EfficientNet_cell11_out0.png",
+    "model": "EfficientNet",
+    "cell_idx": 11,
+    "section": "CELL 4 \u2500\u2500 Hyper-parameters & Data Loaders",
+    "code_title": "fig.suptitle(f\"DIP Spatial Resizing Analysis: {class_folder_name}\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 472.5
+  },
+  {
+    "filename": "EfficientNet_cell13_out0.png",
+    "model": "EfficientNet",
+    "cell_idx": 13,
+    "section": "CELL 5 \u2500\u2500 Explore: Sample Images",
+    "code_title": "plt.suptitle(\"Training Samples\", fontsize=16, fontweight=\"bold\")",
+    "size_kb": 1577.1
+  },
+  {
+    "filename": "EfficientNet_cell15_out0.png",
+    "model": "EfficientNet",
+    "cell_idx": 15,
+    "section": "CELL 6 \u2500\u2500 Class Distribution",
+    "code_title": "ax.set_title(\"Class Distribution across Splits\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 60.1
+  },
+  {
+    "filename": "EfficientNet_cell18_out0.png",
+    "model": "EfficientNet",
+    "cell_idx": 18,
+    "section": "CELL 7 \u2500\u2500 Data Augmentation",
+    "code_title": "plt.suptitle(\"Augmented Versions of One Image\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 508.4
+  },
+  {
+    "filename": "EfficientNet_cell19_out0.png",
+    "model": "EfficientNet",
+    "cell_idx": 19,
+    "section": "CELL 7 \u2500\u2500 Data Augmentation",
+    "code_title": "fig.suptitle(\"DIP: Isolated Geometric and Intensity Transformations in EfficientNetB0\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 824.3
+  },
+  {
+    "filename": "EfficientNet_cell29_out0.png",
+    "model": "EfficientNet",
+    "cell_idx": 29,
+    "section": "CELL 11 \u2500\u2500 Training Curves",
+    "code_title": "fig.suptitle(\"EfficientNetB0 \u2014 Training Curves\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 68.5
+  },
+  {
+    "filename": "EfficientNet_cell33_out1.png",
+    "model": "EfficientNet",
+    "cell_idx": 33,
+    "section": "CELL 13 \u2500\u2500 Confusion Matrix & Classification Report",
+    "code_title": "plt.title(\"Confusion Matrix \u2014 EfficientNetB0 (Test Set)\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 216.7
+  },
+  {
+    "filename": "EfficientNet_cell35_out0.png",
+    "model": "EfficientNet",
+    "cell_idx": 35,
+    "section": "CELL 14 \u2500\u2500 Per-Class Accuracy Bar Chart",
+    "code_title": "plt.ylabel(\"Accuracy (%)\"); plt.title(\"Per-Class Accuracy \u2014 EfficientNetB0\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 72.2
+  },
+  {
+    "filename": "EfficientNet_cell37_out0.png",
+    "model": "EfficientNet",
+    "cell_idx": 37,
+    "section": "CELL 15 \u2500\u2500 Sample Predictions Grid (Green = Correct, Red = Wrong)",
+    "code_title": "plt.suptitle(\"Sample Predictions \u2014 EfficientNetB0\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 2105.6
+  },
+  {
+    "filename": "MobileNet_cell11_out0.png",
+    "model": "MobileNet",
+    "cell_idx": 11,
+    "section": "CELL 4 \u2500\u2500 Hyper-parameters & Data Loaders",
+    "code_title": "fig.suptitle(f\"DIP Spatial Resizing Analysis: {class_folder_name}\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 472.4
+  },
+  {
+    "filename": "MobileNet_cell13_out0.png",
+    "model": "MobileNet",
+    "cell_idx": 13,
+    "section": "CELL 5 \u2500\u2500 Explore: Sample Images from Each Split",
+    "code_title": "plt.suptitle(title, fontsize=16, fontweight=\"bold\", y=1.01)",
+    "size_kb": 1577.9
+  },
+  {
+    "filename": "MobileNet_cell15_out0.png",
+    "model": "MobileNet",
+    "cell_idx": 15,
+    "section": "CELL 6 \u2500\u2500 Class Distribution Bar Chart",
+    "code_title": "ax.set_title(\"Class Distribution across Splits\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 60.1
+  },
+  {
+    "filename": "MobileNet_cell18_out0.png",
+    "model": "MobileNet",
+    "cell_idx": 18,
+    "section": "CELL 7 \u2500\u2500 Data Augmentation Pipeline",
+    "code_title": "plt.suptitle(\"Augmented Versions of One Image\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 500.9
+  },
+  {
+    "filename": "MobileNet_cell19_out0.png",
+    "model": "MobileNet",
+    "cell_idx": 19,
+    "section": "CELL 7 \u2500\u2500 Data Augmentation Pipeline",
+    "code_title": "fig.suptitle(\"DIP: Isolated Geometric and Intensity Transformations in MobileNetV2\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 824.2
+  },
+  {
+    "filename": "MobileNet_cell29_out0.png",
+    "model": "MobileNet",
+    "cell_idx": 29,
+    "section": "CELL 11 \u2500\u2500 Training Curves",
+    "code_title": "fig.suptitle(\"MobileNetV2 \u2014 Training Curves\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 74.2
+  },
+  {
+    "filename": "MobileNet_cell33_out1.png",
+    "model": "MobileNet",
+    "cell_idx": 33,
+    "section": "CELL 13 \u2500\u2500 Confusion Matrix & Classification Report",
+    "code_title": "plt.title(\"Confusion Matrix \u2014 MobileNetV2 (Test Set)\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 216.1
+  },
+  {
+    "filename": "MobileNet_cell35_out0.png",
+    "model": "MobileNet",
+    "cell_idx": 35,
+    "section": "CELL 14 \u2500\u2500 Per-Class Accuracy Bar Chart",
+    "code_title": "plt.title(\"Per-Class Accuracy \u2014 MobileNetV2\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 73.0
+  },
+  {
+    "filename": "MobileNet_cell37_out0.png",
+    "model": "MobileNet",
+    "cell_idx": 37,
+    "section": "CELL 15 \u2500\u2500 Sample Predictions Grid (Green = Correct, Red = Wrong)",
+    "code_title": "plt.suptitle(\"Sample Predictions \u2014 MobileNetV2\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 2110.2
+  },
+  {
+    "filename": "ResNet50_cell11_out0.png",
+    "model": "ResNet50",
+    "cell_idx": 11,
+    "section": "CELL 4 \u2500\u2500 Hyper-parameters & Data Loaders",
+    "code_title": "fig.suptitle(f\"DIP Spatial Resizing Analysis: {class_folder_name}\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 521.5
+  },
+  {
+    "filename": "ResNet50_cell13_out0.png",
+    "model": "ResNet50",
+    "cell_idx": 13,
+    "section": "CELL 5 \u2500\u2500 Explore: Sample Images",
+    "code_title": "plt.suptitle(\"Training Samples\", fontsize=16, fontweight=\"bold\")",
+    "size_kb": 1570.1
+  },
+  {
+    "filename": "ResNet50_cell15_out0.png",
+    "model": "ResNet50",
+    "cell_idx": 15,
+    "section": "CELL 6 \u2500\u2500 Class Distribution",
+    "code_title": "ax.set_title(\"Class Distribution across Splits\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 84.1
+  },
+  {
+    "filename": "ResNet50_cell18_out0.png",
+    "model": "ResNet50",
+    "cell_idx": 18,
+    "section": "CELL 7 \u2500\u2500 Data Augmentation",
+    "code_title": "plt.suptitle(\"Augmented Versions of One Image\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 508.0
+  },
+  {
+    "filename": "ResNet50_cell19_out0.png",
+    "model": "ResNet50",
+    "cell_idx": 19,
+    "section": "CELL 7 \u2500\u2500 Data Augmentation",
+    "code_title": "fig.suptitle(\"DIP: Isolated Geometric and Intensity Transformations in ResNet50\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 757.6
+  },
+  {
+    "filename": "ResNet50_cell24_out0.png",
+    "model": "ResNet50",
+    "cell_idx": 24,
+    "section": "DIP: Visualizing Pretrained Convolutional Feature Maps",
+    "code_title": "fig.suptitle(f\"DIP Activation Maps: ResNet50 First Conv Layer (conv1_conv) \u2014 {CLASS_NAMES[sample_lbl]}\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 760.3
+  },
+  {
+    "filename": "ResNet50_cell31_out0.png",
+    "model": "ResNet50",
+    "cell_idx": 31,
+    "section": "CELL 11 \u2500\u2500 Training Curves",
+    "code_title": "fig.suptitle(\"ResNet50 \u2014 Training Curves\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 64.1
+  },
+  {
+    "filename": "ResNet50_cell35_out1.png",
+    "model": "ResNet50",
+    "cell_idx": 35,
+    "section": "CELL 13 \u2500\u2500 Confusion Matrix & Classification Report",
+    "code_title": "plt.title(\"Confusion Matrix \u2014 ResNet50 (Test Set)\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 173.7
+  },
+  {
+    "filename": "ResNet50_cell37_out0.png",
+    "model": "ResNet50",
+    "cell_idx": 37,
+    "section": "CELL 14 \u2500\u2500 Per-Class Accuracy Bar Chart",
+    "code_title": "plt.ylabel(\"Accuracy (%)\"); plt.title(\"Per-Class Accuracy \u2014 ResNet50\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 95.9
+  },
+  {
+    "filename": "ResNet50_cell39_out0.png",
+    "model": "ResNet50",
+    "cell_idx": 39,
+    "section": "CELL 15 \u2500\u2500 Sample Predictions Grid (Green = Correct, Red = Wrong)",
+    "code_title": "plt.suptitle(\"Sample Predictions \u2014 ResNet50\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 2105.1
+  },
+  {
+    "filename": "VGG16_cell13_out0.png",
+    "model": "VGG16",
+    "cell_idx": 13,
+    "section": "CELL 5 \u2500\u2500 Explore: Sample Images",
+    "code_title": "plt.suptitle(\"Training Samples\", fontsize=16, fontweight=\"bold\")",
+    "size_kb": 1526.7
+  },
+  {
+    "filename": "VGG16_cell15_out0.png",
+    "model": "VGG16",
+    "cell_idx": 15,
+    "section": "CELL 6 \u2500\u2500 Class Distribution",
+    "code_title": "ax.set_title(\"Class Distribution across Splits\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 60.1
+  },
+  {
+    "filename": "VGG16_cell18_out0.png",
+    "model": "VGG16",
+    "cell_idx": 18,
+    "section": "CELL 7 \u2500\u2500 Data Augmentation",
+    "code_title": "plt.suptitle(\"Augmented Versions of One Image\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 1257.5
+  },
+  {
+    "filename": "VGG16_cell31_out0.png",
+    "model": "VGG16",
+    "cell_idx": 31,
+    "section": "CELL 11 \u2500\u2500 Training Curves",
+    "code_title": "fig.suptitle(\"VGG16 \u2014 Training Curves\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 66.0
+  },
+  {
+    "filename": "VGG16_cell35_out1.png",
+    "model": "VGG16",
+    "cell_idx": 35,
+    "section": "CELL 13 \u2500\u2500 Confusion Matrix & Classification Report",
+    "code_title": "plt.title(\"Confusion Matrix \u2014 VGG16 (Test Set)\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 212.1
+  },
+  {
+    "filename": "VGG16_cell37_out0.png",
+    "model": "VGG16",
+    "cell_idx": 37,
+    "section": "CELL 14 \u2500\u2500 Per-Class Accuracy Bar Chart",
+    "code_title": "plt.ylabel(\"Accuracy (%)\"); plt.title(\"Per-Class Accuracy \u2014 VGG16\", fontsize=13, fontweight=\"bold\")",
+    "size_kb": 71.5
+  },
+  {
+    "filename": "VGG16_cell39_out0.png",
+    "model": "VGG16",
+    "cell_idx": 39,
+    "section": "CELL 15 \u2500\u2500 Sample Predictions Grid (Green = Correct, Red = Wrong)",
+    "code_title": "plt.suptitle(\"Sample Predictions \u2014 VGG16\", fontsize=14, fontweight=\"bold\")",
+    "size_kb": 2105.6
+  }
+]

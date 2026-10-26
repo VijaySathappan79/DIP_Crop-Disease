@@ -1,0 +1,586 @@
+{
+  "Comparison": [
+    {
+      "cell_idx": 0,
+      "raw_markdown": "# MODEL COMPARISON - All 5 Classifiers\nCrop Pest and Disease Detection\nIMPORTANT: Run this notebook AFTER training and saving all 5 models.\nRequired saved model files:\n- MobileNetV2_Crop_Disease_Final.keras\n- ResNet50_Crop_Disease_Final.keras\n- EfficientNetB0_Crop_Disease_Final.keras\n- VGG16_Crop_Disease_Final.keras\n- CustomCNN_Crop_Disease_Final.keras\n\n---\n"
+    },
+    {
+      "cell_idx": 1,
+      "raw_markdown": "### Digital Image Processing Pipeline Comparison\n\nIn digital image processing (DIP) applied to computer vision, classification performance is heavily governed by the initial image processing pipeline. Architectural differences across classifiers interact directly with:\n- **Spatial Resolution:** Custom CNN ($128 \\times 128$) vs. Transfer Learning models ($224 \\times 224$).\n- **Radiometric Normalization:** Rescaling $[0, 1]$ vs. zero-centering $[-1, 1]$ vs. channel-wise ImageNet mean subtraction in BGR format.\n- **Data Augmentation:** Geometric spatial coordinate remapping (affine rotations, reflections, scaling) and radiometric intensity transforms (contrast, brightness).\n- **Convolutional Filtering Operators:** Standard 2D spatial convolution vs. Depthwise Separable Convolutions vs. Bottleneck Residuals vs. Squeeze-and-Excitation channel attention vs. Homogeneous stacked $3 \\times 3$ filters.\n\nThis comparative study evaluates the trade-offs between image processing complexity, receptive field capacity, parameter efficiency, and inference speed for field deployment in precision agriculture."
+    },
+    {
+      "cell_idx": 2,
+      "raw_markdown": "### CELL 1 ── Imports\n"
+    },
+    {
+      "cell_idx": 4,
+      "raw_markdown": "### CELL 2 ── Config: Paths & Parameters\n"
+    },
+    {
+      "cell_idx": 6,
+      "raw_markdown": "### CELL 3 ── Load Test Dataset (standard 224x224 reference)\n"
+    },
+    {
+      "cell_idx": 8,
+      "raw_markdown": "### CELL 4 ── Evaluate All Models & Collect Metrics\n"
+    },
+    {
+      "cell_idx": 10,
+      "raw_markdown": "### CELL 5 ── Summary Table (printed)\n"
+    },
+    {
+      "cell_idx": 12,
+      "raw_markdown": "### CELL 6 ── Bar Chart: Accuracy Comparison\n"
+    },
+    {
+      "cell_idx": 14,
+      "raw_markdown": "### CELL 7 ── Grouped Bar Chart: Accuracy / Precision / Recall / F1\n"
+    },
+    {
+      "cell_idx": 16,
+      "raw_markdown": "### CELL 8 ── Inference Speed Comparison\n"
+    },
+    {
+      "cell_idx": 18,
+      "raw_markdown": "### CELL 9 ── Radar / Spider Chart: All 4 Metrics per Model\n"
+    },
+    {
+      "cell_idx": 20,
+      "raw_markdown": "### CELL 10 ── Confusion Matrices for All Models (side by side)\n"
+    },
+    {
+      "cell_idx": 22,
+      "raw_markdown": "### CELL 11 ── Per-Class F1 Score Heatmap  (Models × Classes)\n"
+    },
+    {
+      "cell_idx": 24,
+      "raw_markdown": "### CELL 12 ── Accuracy vs Inference Speed Scatter Plot\n"
+    },
+    {
+      "cell_idx": 26,
+      "raw_markdown": "### CELL 13 ── Print Best Model\n"
+    },
+    {
+      "cell_idx": 28,
+      "raw_markdown": "### CELL 14 ── Export Comparison Results to CSV\n"
+    },
+    {
+      "cell_idx": 30,
+      "raw_markdown": "### Comparative Analysis of Digital Image Processing Pipelines\n\nThe table below provides a comprehensive comparison of the image processing pipelines, spatial filtering architectures, and computational footprints implemented across all five models in this case study.\n\n| Pipeline Dimension | Custom CNN | MobileNetV2 | ResNet50 | EfficientNetB0 | VGG16 |\n|:---|:---|:---|:---|:---|:---|\n| **Input Spatial Resolution** | $128 \\times 128 \\times 3$ | $224 \\times 224 \\times 3$ | $224 \\times 224 \\times 3$ | $224 \\times 224 \\times 3$ | $224 \\times 224 \\times 3$ |\n| **Total Input Pixel Values** | $49,152$ | $150,528$ | $150,528$ | $150,528$ | $150,528$ |\n| **Pixel Intensity Preprocessing** | Linear rescaling to $[0.0, 1.0]$ via $X / 255.0$ | Symmetrical zero-centering to $[-1.0, 1.0]$ via $(X/127.5)-1$ | Channel permutation RGB $\\to$ BGR + ImageNet mean subtraction | Internal built-in rescaling & normalization (raw $[0, 255]$) | Channel permutation RGB $\\to$ BGR + ImageNet mean subtraction |\n| **Geometric Augmentations** | Flip (H+V), Rotation ($\\pm 90^\\circ$), Zoom ($\\pm 20\\%$), Translation ($\\pm 10\\%$) | Flip (H+V), Rotation ($\\pm 90^\\circ$), Zoom ($\\pm 20\\%$) | Flip (H+V), Rotation ($\\pm 90^\\circ$), Zoom ($\\pm 20\\%$) | Flip (H+V), Rotation ($\\pm 90^\\circ$), Zoom ($\\pm 20\\%$) | Flip (Horizontal only), Rotation ($\\pm 72^\\circ$), Zoom ($\\pm 15\\%$) |\n| **Intensity Augmentations** | Contrast ($\\pm 15\\%$), Brightness ($\\pm 10\\%$) | Contrast ($\\pm 15\\%$), Brightness ($\\pm 10\\%$) | Contrast ($\\pm 15\\%$), Brightness ($\\pm 10\\%$) | Contrast ($\\pm 15\\%$), Brightness ($\\pm 10\\%$) | Contrast ($\\pm 10\\%$) only *(No brightness)* |\n| **Convolution Architecture** | 5-block standard 2D convolution ($3 \\times 3$ kernels) | Inverted Residuals with Depthwise Separable Convolutions | 50-layer Bottleneck Residual Blocks with Identity Shortcuts | Mobile Inverted Bottleneck (MBConv) with SE Channel Attention | 5 blocks of homogeneous stacked $3 \\times 3$ convolutions |\n| **Feature Extraction Mechanism** | Progressive filter doubling ($32 \\to 512$) + Global Pooling | Factorized 2D spatial filtering per channel + $1 \\times 1$ pointwise mix | Residual identity gradient highways: $H(x) = F(x) + x$ | Compound-scaled depth, width & resolution + SE attention | Receptive field enlargement via cascaded small kernels |\n| **Spatial Aggregation Head** | Global Average Pooling | Global Average Pooling | Global Average Pooling | Global Average Pooling | `layers.Flatten()` (Dense spatial vector) |\n| **Backbone Parameters** | $\\approx 1.7\\text{M}$ (Trained from scratch) | $\\approx 2.26\\text{M}$ (Pretrained ImageNet) | $\\approx 23.5\\text{M}$ (Pretrained ImageNet) | $\\approx 4.05\\text{M}$ (Pretrained ImageNet) | $\\approx 14.7\\text{M}$ (Pretrained ImageNet) |\n| **Total Model Parameters** | $\\approx 1.84\\text{M}$ | $\\approx 2.60\\text{M}$ | $\\approx 24.1\\text{M}$ | $\\approx 4.38\\text{M}$ | $\\approx 138\\text{M}$ |\n| **Batch Size Configuration** | $32$ | $32$ | $32$ | $32$ | $16$ *(Reduced due to heavy VRAM footprint)* |\n\n#### Technical Interpretation of Pipeline Performance Differences\n1. **Resolution vs. Micro-Symptom Detection:**\n   - Custom CNN operates at $128 \\times 128$ resolution, accelerating training on modest hardware but discarding fine spatial details that distinguish subtle early fungal pustules or thin leaf miner serpentine trails.\n   - The transfer learning models process $224 \\times 224$ images, preserving nearly **$3\\times$ more spatial pixels**, enabling more precise feature extraction of irregular necrotic spot contours.\n2. **Impact of Pretrained Feature Hierarchies:**\n   - While Custom CNN must learn basic spatial primitives (edges, gradients, color boundaries) entirely from scratch on crop images alone, the transfer learning models begin with rich spatial feature representations optimized on ImageNet's 1.4 million diverse images.\n3. **Architectural Trade-Offs (Convolutional Mechanisms):**\n   - **MobileNetV2** achieves low inference latency by factorizing 2D spatial filtering from cross-channel combination, making it ideal for drone or mobile field scouting.\n   - **ResNet50** leverages deep skip connections that allow gradients to propagate through 50 layers without attenuation, extracting deep hierarchical disease features.\n   - **EfficientNetB0** combines depthwise convolutions with Squeeze-and-Excitation channel attention, dynamically amplifying channels containing disease-indicative chlorotic and necrotic patterns while attenuating background soil noise.\n   - **VGG16** provides clean, textbook receptive field expansion via stacked $3 \\times 3$ filters, but its enormous parameter volume ($138\\text{M}$) and unpooled Flatten layer result in high memory consumption and latency.\n\n> **Academic Note:** Observed accuracy differences cannot be attributed solely to image processing. They result from the combined effect of spatial input resolution, network depth, parameter capacity, and transfer learning initialization."
+    },
+    {
+      "cell_idx": 31,
+      "raw_markdown": "### Experiment: Effect of Image Degradations on Model Classification\n\nTo directly test the impact of digital image quality on classification performance, we evaluate model predictions on a deterministic subset of real test images under four controlled conditions: **Baseline Original**, **Gaussian Blurred**, **Reduced Contrast**, and **Grayscale**."
+    },
+    {
+      "cell_idx": 33,
+      "raw_markdown": "### Interpretation of Image Quality Degradation Experiment\n\nThis experiment evaluates the robustness of the trained classifiers when subjected to controlled digital image degradations common in real-world agricultural scouting:\n\n1. **Gaussian Blurring ($\\sigma = 2.0$):**\n   - **DIP Mechanism:** Low-pass filtering attenuates high spatial frequency image components, softening sharp edge gradients.\n   - **Pathological Impact:** Blurring obscures fine lesion margins, micro-pustules, and vein-delimited spot geometries. Models relying heavily on high-frequency edge filters experience reduced classification confidence.\n2. **Contrast Reduction ($40\\%$ Dynamic Range Compression):**\n   - **DIP Mechanism:** Point operation compressing the pixel intensity histogram towards median gray ($128$).\n   - **Pathological Impact:** Reduces intensity contrast between diseased lesions and surrounding healthy foliage. Models trained with robust contrast augmentation exhibit greater resilience to this degradation.\n3. **Grayscale Conversion ($R=G=B=Y$):**\n   - **DIP Mechanism:** Perceptual luminance reduction ($Y = 0.299R + 0.587G + 0.114B$) eliminating all chrominance ($Cr, Cb$) variance.\n   - **Pathological Impact:** Eliminates the chromatic distinction between healthy green chlorophyll, chlorotic yellowing, and necrotic brown cell death. This severely degrades accuracy for diseases whose primary diagnostic indicator is color rather than texture.\n\nThis empirical experiment demonstrates that **image processing operations directly govern the visual features accessible to neural classifiers**."
+    }
+  ],
+  "CustomCNN": [
+    {
+      "cell_idx": 0,
+      "raw_markdown": "# MODEL: Custom CNN (Built from Scratch)\nTASK : Crop Pest and Disease Detection - End-to-End Pipeline\nPaste each CELL block into a separate cell in your Jupyter Notebook.\nRun cells in order from top to bottom.\n\n---\n"
+    },
+    {
+      "cell_idx": 1,
+      "raw_markdown": "### Digital Image Processing Concepts Used in This Model\n\nIn digital image processing (DIP) for precision agriculture, crop pest and disease detection operates directly on discrete pixel arrays to identify localized and systemic plant pathologies. Crop disease symptoms—such as necrotic lesions, chlorotic rings, powdery fungal sporulation, and leaf miner serpentine tunnels—manifest as distinct spatial, chromatic, and textural variations against healthy foliage.\n\n#### Why Crop Images Require Preprocessing\n1. **Field Illumination Variations:** Uncontrolled outdoor lighting creates intense specular highlights, deep shadows, and variable color temperatures that alter raw pixel intensity values.\n2. **Scale and Perspective Differences:** Unconstrained capture distances and camera angles alter the apparent size and geometric orientation of leaf symptoms.\n3. **Complex Background Clutter:** Soil, weeds, dried organic matter, and neighboring foliage introduce high-frequency visual noise that must be handled robustly.\n4. **Sensor Noise and Downsampling Artifacts:** Sensor acquisition noise and spatial quantization require systematic normalization.\n\n#### Spatial and Intensity Transformations in Training\n- **Geometric Transformations:** Random spatial reflections (flipping), rotations, zoom scaling, and spatial translations teach the model rotational and scale invariance, simulating varied drone and handheld camera viewpoints.\n- **Intensity Transformations:** Contrast adjustment and brightness scaling simulate diurnal illumination shifts and camera exposure differences without altering underlying lesion morphology.\n\n#### Convolutional Feature Extraction in Custom CNN\nUnlike traditional DIP pipelines that rely on handcrafted spatial filters (e.g., fixed Sobel, Prewitt, or Laplacian operators) and manual feature descriptors (e.g., GLCM, LBP), a Convolutional Neural Network (CNN) learns **adaptive spatial convolution kernels** directly from training data.\n- **Early layers** apply small $3\\times 3$ kernels to extract low-level spatial primitives: edges, color gradients, and fine leaf margins.\n- **Intermediate layers** synthesize these primitives into texture patterns and lesion borders.\n- **Deep layers** aggregate localized patterns into high-level semantic representations of specific crop diseases.\n\n#### End-to-End DIP & Classification Pipeline\n$$\\text{Input Image } (H \\times W \\times 3) \\longrightarrow \\text{Image Decoding \\& Resizing } (128 \\times 128) \\longrightarrow \\text{Data Augmentation } \\longrightarrow \\text{Pixel Rescaling } [0, 1] \\longrightarrow \\text{Convolutional Feature Extraction } \\longrightarrow \\text{Global Pooling } \\longrightarrow \\text{Dense Classification}$$\n\n> **Important Case Study Note:** This model performs **whole-image classification** (predicting the overall disease category for the entire image) rather than explicit **semantic pixel segmentation** (which would delineate exact boundary contours for each diseased lesion)."
+    },
+    {
+      "cell_idx": 2,
+      "raw_markdown": "### CELL 1 ── Install Dependencies\n"
+    },
+    {
+      "cell_idx": 4,
+      "raw_markdown": "### CELL 2 ── Imports\n"
+    },
+    {
+      "cell_idx": 6,
+      "raw_markdown": "### CELL 3 ── Verify & Load Local Dataset  (70 / 15 / 15)\n"
+    },
+    {
+      "cell_idx": 8,
+      "raw_markdown": "### DIP: Digital Image Representation, Decoding, and Spatial Resizing\n\n#### Digital Color Image Representation\nA digital color photograph is represented as a 3D numerical matrix of shape $(H \\times W \\times C)$, where:\n- $H$ is the spatial height (number of pixel rows).\n- $W$ is the spatial width (number of pixel columns).\n- $C = 3$ represents the three additive primary color channels: **Red (R), Green (G), and Blue (B)**.\n- Each pixel intensity is an 8-bit unsigned integer ($uint8$) with discrete levels spanning $[0, 255]$ ($2^8 = 256$ intensity levels).\n\n#### Image Decoding\nStored JPEG images are compressed using Discrete Cosine Transform (DCT) quantization and Huffman entropy coding. During input pipeline execution, TensorFlow's decoding engine decompresses raw binary bitstreams into uncompressed 3D arrays of numerical pixel intensities.\n\n#### Image Resizing and Spatial Downsampling\nDeep neural networks process data in batches, requiring fixed, standardized tensor dimensions ($B \\times H \\times W \\times C$).\n- **Custom CNN Resolution:** This notebook standardizes all input images to **$128 \\times 128$ pixels**.\n- **Computational Trade-Off:** Resizing from high camera resolution (e.g., $400 \\times 400$ or higher) to $128 \\times 128$ drastically reduces computational complexity and GPU memory footprint ($128 \\times 128 \\times 3 = 49,152$ values vs. $400 \\times 400 \\times 3 = 480,000$ values—nearly a **$10\\times$ reduction**).\n- **Resolution Loss:** Aggressive spatial downsampling can attenuate high-frequency visual details, potentially blurring subtle early-stage disease symptoms such as micro-pustules or thin leaf miner tracks.\n- **Aspect Ratio Distortion:** Direct bilinear downsampling to a square ($128 \\times 128$) may cause geometric stretching if the original camera capture is non-square."
+    },
+    {
+      "cell_idx": 9,
+      "raw_markdown": "### CELL 4 ── Hyper-parameters & Data Loaders\n"
+    },
+    {
+      "cell_idx": 12,
+      "raw_markdown": "### CELL 5 ── Explore: Sample Images\n"
+    },
+    {
+      "cell_idx": 14,
+      "raw_markdown": "### DIP Demonstration: Digital Image Representation and Intensity Analysis\n\nIn digital image processing, color channels provide critical discriminative features for plant pathology. Diseased leaf tissue undergoes physiological breakdown causing **chlorosis** (loss of chlorophyll resulting in yellowing) and **necrosis** (cell death resulting in brown/black coloration).\n\nBelow, we perform an educational exploratory analysis on an actual crop image:\n1. Decomposing the image into separate Red, Green, and Blue intensity channels.\n2. Converting the RGB image to Grayscale using standard perceptual luminance weighting:\n   $$Y = 0.299R + 0.587G + 0.114B$$\n3. Computing pixel intensity histograms across RGB channels and the grayscale image to inspect pixel distribution across the $[0, 255]$ dynamic range.\n\n> **Note on Pipeline Integrity:** This demonstration is purely exploratory. The model's training pipeline retains full 3-channel RGB images to preserve vital chromatic diagnostic cues."
+    },
+    {
+      "cell_idx": 16,
+      "raw_markdown": "### CELL 6 ── Class Distribution\n"
+    },
+    {
+      "cell_idx": 18,
+      "raw_markdown": "### DIP: Geometric and Intensity Transformations\n\nData augmentation applies digital image processing transformations to synthetic training images, expanding effective dataset variance and enforcing invariance to camera orientation and field illumination.\n\n#### 1. Geometric Transformations (Spatial Coordinate Remapping)\nGeometric transformations alter the spatial coordinates $(x, y)$ of image pixels via 2D spatial mapping functions $I'(x', y') = I(T_x(x, y), T_y(x, y))$:\n- **Spatial Reflection (Flipping):** `RandomFlip(\"horizontal_and_vertical\")` reflects pixels across horizontal ($y' = H - y$) and vertical ($x' = W - x$) axes. Foliar diseases possess no natural gravitational orientation, making bilateral symmetry valid.\n- **Rotation:** `RandomRotation(0.25)` applies 2D affine rotation. In Keras, a factor of **$0.25$ represents a fraction of $2\\pi$**, meaning images are randomly rotated within $[-0.25 \\times 360^\\circ, +0.25 \\times 360^\\circ] = [-90^\\circ, +90^\\circ]$ (a full quarter turn), **not** 25 degrees.\n- **Scaling (Zoom):** `RandomZoom(0.20)` scales coordinates by $\\pm 20\\%$, simulating variable camera working distances.\n- **Translation:** `RandomTranslation(0.1, 0.1)` shifts the image spatially by $\\pm 10\\%$ along $x$ and $y$ axes, simulating off-center leaf framing.\n\n#### 2. Intensity Transformations (Radiometric Point Operations)\nIntensity transformations modify pixel intensity values directly without altering spatial pixel geometry:\n- **Contrast Adjustment:** `RandomContrast(0.15)` dynamically stretches or compresses the image dynamic range around its mean intensity: $I'(x,y) = \\bar{I} + c \\cdot (I(x,y) - \\bar{I})$, simulating variable ambient daylight and cloud cover.\n- **Brightness Adjustment:** `RandomBrightness(0.10)` shifts intensity levels additively: $I'(x,y) = I(x,y) + \\delta$, simulating overexposure or deep canopy shading."
+    },
+    {
+      "cell_idx": 19,
+      "raw_markdown": "### CELL 7 ── Data Augmentation\n"
+    },
+    {
+      "cell_idx": 22,
+      "raw_markdown": "### DIP: Convolutional Filtering and Hierarchical Feature Extraction\n\n#### Mathematical Formulation of 2D Spatial Convolution\nIn discrete 2D digital image processing, spatial filtering correlates an input feature map $X$ with a 2D filter kernel $K$ of spatial dimensions $M \\times N$:\n\n$$Y(i, j) = (X * K)(i, j) = \\sum_{m=-M/2}^{M/2} \\sum_{n=-N/2}^{N/2} K(m, n) \\cdot X(i + m, j + n)$$\n\nWhere:\n- $X(i+m, j+n)$ is the pixel intensity or receptive field feature value at spatial offset $(m, n)$.\n- $K(m, n)$ is the kernel weight matrix.\n- $Y(i, j)$ is the filtered output response (activation feature map).\n- In traditional DIP, $K$ is mathematically fixed (e.g., Sobel kernels for edge detection, Gaussian kernels for low-pass smoothing).\n- In Convolutional Neural Networks, **all kernel weights $K(m, n)$ are learnable parameters** optimized via backpropagation to isolate crop disease indicators.\n\n#### Hierarchical Feature Representation in Custom CNN\n1. **Low-Level Layers (Block 1 - 32 filters):** Extract high-frequency spatial gradients, crisp leaf edges, color boundaries, and vein structures.\n2. **Intermediate Layers (Blocks 2 & 3 - 64 & 128 filters):** Synthesize low-level gradients into textural primitives: circular fungal spots, chlorotic halos, and boundary contours.\n3. **High-Level Layers (Blocks 4 & 5 - 256 & 512 filters):** Capture broad semantic representations: severe leaf blight spread, mosaic disfigurations, and distinctive pest damage.\n4. **Global Average Pooling:** Converts spatial feature tensors $(B, H', W', C')$ into compact 1D vector representations $(B, C')$ by computing the spatial mean of each feature map:\n   $$GAP_c = \\frac{1}{H' \\times W'} \\sum_{i=1}^{H'} \\sum_{j=1}^{W'} Y_c(i, j)$$\n   This dramatically reduces parameter count compared to fully connected flattening and enforces translation invariance.\n\n---\n\n### DIP: Pixel Intensity Preprocessing\n\n| Model | Preprocessing Operation | Input Scale Expected |\n|---|---|---|\n| **Custom CNN** | Linear Rescaling: $X' = \\frac{X}{255.0}$ | Maps raw $[0, 255]$ uint8 to $[0.0, 1.0]$ float32 |\n\n#### Critical Implementation Note: Augmentation and Normalization Ordering\nIn this updated pipeline:\n- `data_augmentation` is applied **first** on raw $[0, 255]$ pixel values.\n- This ensures `RandomBrightness(0.10, value_range=(0, 255))` and `RandomContrast` operate on their native $[0, 255]$ dynamic range without scale mismatch.\n- `layers.Rescaling(1.0 / 255)` is applied immediately **after** augmentation, mapping the augmented tensors into $[0.0, 1.0]$ float32 before they enter the convolutional layers.\n- Inputs are never rescaled twice."
+    },
+    {
+      "cell_idx": 23,
+      "raw_markdown": "### CELL 8 ── Build Custom CNN Architecture (from scratch)\n"
+    },
+    {
+      "cell_idx": 25,
+      "raw_markdown": "### DIP Demonstration: Classical Spatial Filtering and Edge Detection\n\nTo contextualize how CNN convolution differs from classical digital image processing, we examine two fundamental handcrafted spatial filtering operations applied to a real crop disease image:\n\n1. **Gaussian Smoothing (Low-Pass Filter):**\n   $$G(x, y) = \\frac{1}{2\\pi \\sigma^2} e^{-\\frac{x^2 + y^2}{2\\sigma^2}}$$\n   Attenuates high-frequency sensor noise and camera grain. However, excessive smoothing blurs delicate disease lesion margins.\n2. **Sobel Gradient Operator (High-Pass Spatial Filtering):**\n   Approximates discrete spatial derivatives across horizontal ($G_x$) and vertical ($G_y$) directions:\n   $$G_x = \\begin{bmatrix} -1 & 0 & +1 \\\\ -2 & 0 & +2 \\\\ -1 & 0 & +1 \\end{bmatrix} * I, \\quad G_y = \\begin{bmatrix} +1 & +2 & +1 \\\\ 0 & 0 & 0 \\\\ -1 & -2 & -1 \\end{bmatrix} * I$$\n   The total gradient magnitude $|\\nabla I| = \\sqrt{G_x^2 + G_y^2}$ highlights high-contrast boundaries: leaf margins, structural veins, and disease lesion perimeters.\n\n> **Key DIP Insight:** While classical Sobel and Gaussian filters rely on **fixed, hand-engineered mathematical coefficients**, a CNN optimizes its kernel matrices **adaptively from training data**, discovering complex oriented filters specialized for crop pathology."
+    },
+    {
+      "cell_idx": 27,
+      "raw_markdown": "### Digital Image Processing vs. Machine Learning in Model Training\n\nIt is essential in academic image processing to clearly distinguish the role of **Digital Image Processing (DIP)** from **Machine Learning (ML)**:\n\n- **Image Processing Operations:** Resizing, geometric spatial remapping (flips, rotations, zooms), pixel intensity normalization ($[0, 255] \\to [0, 1]$), 2D spatial convolution filtering, and pooling downsampling.\n- **Machine Learning Operations:** Sparse categorical cross-entropy loss computation, error backpropagation via chain rule, Adam optimizer parameter updates, learning rate decay schedules (`ReduceLROnPlateau`), and regularization (dropout, early stopping).\n\nDIP transforms raw sensor pixel arrays into structured spatial feature representations; Machine Learning optimizes network weights so those spatial representations yield high-accuracy disease classification."
+    },
+    {
+      "cell_idx": 28,
+      "raw_markdown": "### CELL 9 ── Compile & Train\n"
+    },
+    {
+      "cell_idx": 30,
+      "raw_markdown": "### CELL 10 ── Training Curves\n"
+    },
+    {
+      "cell_idx": 32,
+      "raw_markdown": "### CELL 11 ── Evaluate on Test Set\n"
+    },
+    {
+      "cell_idx": 34,
+      "raw_markdown": "### DIP: Visualizing Learned Convolutional Feature Maps\n\nTo verify that the convolutional layers are functioning as spatial feature extractors, we pass a test image through the trained network and extract activation feature maps from the **first convolutional layer (`block1_conv`)**.\n\nEach feature map represents the spatial response of a single learned $3 \\times 3$ convolution filter across the image:\n- Certain filters respond strongly to leaf boundary edges (high spatial frequencies).\n- Others respond to smooth green foliage regions (low spatial frequencies).\n- Others trigger on dark necrotic disease lesions or discolored chlorotic patches."
+    },
+    {
+      "cell_idx": 36,
+      "raw_markdown": "### CELL 12 ── Confusion Matrix & Classification Report\n"
+    },
+    {
+      "cell_idx": 38,
+      "raw_markdown": "### CELL 13 ── Per-Class Accuracy Bar Chart\n"
+    },
+    {
+      "cell_idx": 40,
+      "raw_markdown": "### CELL 14 ── Sample Predictions Grid (Green = Correct, Red = Wrong)\n"
+    },
+    {
+      "cell_idx": 42,
+      "raw_markdown": "### Interpretation of Image-Based Classification Results\n\nIn evaluating the sample prediction grid and confusion matrix from a digital image processing perspective:\n\n1. **Visual Cues Leveraged by the Classifier:**\n   - **Chromatic Discoloration:** Yellowing chlorotic borders and dark brown/black necrotic patches serve as primary chromatic signals.\n   - **Spatial Texture:** Powdery mildew patterns, leaf miner serpentine tracks, and circular fungal spots provide distinct spatial frequency signatures.\n2. **Sources of Inter-Class Confusion:**\n   - **Morphological Similarity:** Different pathogens can induce visually indistinguishable symptoms (e.g., *Maize leaf blight* vs. *Maize leaf spot* in early developmental stages).\n   - **Environmental Artifacts:** Strong sunlight reflections can be misclassified as light-colored fungal sporulation; deep shadows can mimic necrosis.\n   - **Background Interference:** Images containing visible soil, human hands, or non-target weeds introduce spurious spatial textures.\n3. **Academic Clarification on Evaluation vs. DIP:**\n   - A **confusion matrix** is a statistical classification metric, not a digital image processing technique.\n   - A **whole-image classification label** indicates the overall diagnosis of the leaf; it does **not** generate pixel-level lesion boundary masks.\n   - **Feature activation maps** show which spatial receptive fields triggered filter responses; they do **not** constitute semantic segmentation masks."
+    },
+    {
+      "cell_idx": 43,
+      "raw_markdown": "### CELL 15 ── Save Final Model\n"
+    },
+    {
+      "cell_idx": 45,
+      "raw_markdown": "### Digital Image Processing Summary and Case Study Findings\n\n#### 1. Input Image Representation and Dimensions\nThe Custom CNN operates on standardized $128 \\times 128 \\times 3$ RGB digital images ($49,152$ total pixel intensity values). Images are loaded from compressed JPEG files and decoded into 8-bit unsigned integer arrays ($[0, 255]$).\n\n#### 2. Image Transformations Applied\n- **Geometric Transformations:** Horizontal and vertical spatial reflections, affine rotation ($\\pm 90^\\circ$), spatial scaling zoom ($\\pm 20\\%$), and spatial translation ($\\pm 10\\%$). These enforce rotational and scale invariance against variable camera perspectives.\n- **Intensity Transformations:** Contrast stretching ($\\pm 15\\%$) and additive brightness adjustments ($\\pm 10\\%$) simulate fluctuating field illumination without altering lesion structures.\n\n#### 3. Pixel Intensity Preprocessing\nRaw $[0, 255]$ pixel values undergo data augmentation first, followed by linear normalization to $[0.0, 1.0]$ via `layers.Rescaling(1.0 / 255)`. This ensures gradient stability during backpropagation while keeping intensity transforms on their native scale.\n\n#### 4. Convolutional Feature Extraction\nThe architecture employs a 5-block hierarchical feature extraction hierarchy utilizing $3 \\times 3$ spatial kernels, Batch Normalization, and $2 \\times 2$ Max Pooling. Filter capacities scale from $32 \\to 64 \\to 128 \\to 256 \\to 512$, followed by Global Average Pooling ($GAP$) to distill 2D spatial feature maps into a 1D feature descriptor.\n\n#### 5. Relevance to Crop Disease Identification\nBy learning data-driven spatial kernels rather than relying on fixed hand-engineered filters (such as Sobel or Gabor), the network learns to detect subtle necrotic borders, chlorotic margins, and localized pest damage patterns across variable field conditions.\n\n#### 6. Limitations of the Image Processing Approach\n- **Lack of Explicit Lesion Segmentation:** Whole-image classification predicts a category for the entire tile but cannot quantify the exact percentage of infected foliar surface area.\n- **Spatial Resolution Downsampling:** Resizing to $128 \\times 128$ significantly accelerates training but sacrifices high-frequency spatial details required to detect very early micro-symptoms.\n- **Sensitivity to Background Interference:** Complex agricultural backgrounds (soil, weeds, shadows) can contaminate feature maps unless suppressed by attentional mechanisms or background subtraction."
+    }
+  ],
+  "EfficientNet": [
+    {
+      "cell_idx": 0,
+      "raw_markdown": "# MODEL: EfficientNetB0\nTASK : Crop Pest and Disease Detection - End-to-End Pipeline\nPaste each CELL block into a separate cell in your Jupyter Notebook.\nRun cells in order from top to bottom.\n\n---\n"
+    },
+    {
+      "cell_idx": 1,
+      "raw_markdown": "### Digital Image Processing Concepts Used in This Model\n\nIn digital image processing (DIP) for agricultural automation, identifying crop pests and diseases requires analyzing spatial gradients, color channel distributions, and textural structures from digital pixel matrices. Biological pathogens induce localized foliar cellular degeneration, manifesting as chlorotic rings, necrotic lesions, powdery fungal sporulation, and irregular blights.\n\n#### Why Crop Images Require Preprocessing\n1. **Uncontrolled Outdoor Lighting:** Natural field illumination introduces solar glare, deep shadows, and color temperature shifts that distort raw pixel intensity distributions.\n2. **Variable Capture Perspective:** Handheld and drone cameras capture leaves at diverse angles and distances, altering apparent symptom dimensions and orientation.\n3. **Complex Agricultural Backgrounds:** Soil, dead organic mulch, and background foliage introduce non-target high-frequency spatial noise.\n4. **Sensor Downsampling & Quantization:** Converting optical signals into digital matrices requires standardized spatial and radiometric normalization.\n\n#### Spatial and Intensity Transformations in Training\n- **Geometric Transformations:** Horizontal and vertical reflections, affine rotations ($\\pm 90^\\circ$), and zoom scaling enforce rotational and scale invariance.\n- **Intensity Transformations:** Contrast stretching and brightness adjustments simulate varying daylight intensity without altering structural lesion morphology.\n\n#### EfficientNetB0: Compound Scaling and Squeeze-and-Excitation Attention\nTraditional architectures scale a single dimension (such as network depth in ResNet, or channel width in WideResNet). EfficientNet introduces **Compound Scaling**, uniformly scaling:\n- **Network Depth ($d$):** Number of layers.\n- **Network Width ($w$):** Channel capacity per layer.\n- **Input Resolution ($r$):** Spatial dimensions of the processed image tensor.\n\nEfficientNetB0 integrates **Mobile Inverted Bottleneck Convolutions (MBConv)** with **Squeeze-and-Excitation (SE) channel attention**. SE blocks explicitly model interdependencies between feature channels, dynamically recalibrating feature maps to amplify disease-indicative chromatic and textural patterns while dampening uninformative background noise.\n\n#### End-to-End DIP & Classification Pipeline\n$$\\text{Input Image } (H \\times W \\times 3) \\longrightarrow \\text{Image Decoding \\& Resizing } (224 \\times 224) \\longrightarrow \\text{Data Augmentation } \\longrightarrow \\text{Internal Rescaling [0, 255] } \\longrightarrow \\text{MBConv + SE Feature Extraction } \\longrightarrow \\text{Global Pooling } \\longrightarrow \\text{Dense Classification}$$\n\n> **Important Case Study Note:** This model performs **whole-image classification** (predicting the disease category for the entire tile) rather than explicit **semantic pixel segmentation** (which would delineate exact boundary contours for each diseased lesion)."
+    },
+    {
+      "cell_idx": 2,
+      "raw_markdown": "### CELL 1 ── Install Dependencies\n"
+    },
+    {
+      "cell_idx": 4,
+      "raw_markdown": "### CELL 2 ── Imports\n"
+    },
+    {
+      "cell_idx": 6,
+      "raw_markdown": "### CELL 3 ── Verify & Load Local Dataset  (70 / 15 / 15)\n"
+    },
+    {
+      "cell_idx": 8,
+      "raw_markdown": "### DIP: Digital Image Representation, Decoding, and Spatial Resizing\n\n#### Digital Color Image Representation\nA digital color photograph is represented as a 3D numerical matrix of shape $(H \\times W \\times 3)$, where $H$ is the spatial height, $W$ is the spatial width, and 3 represents the primary color channels: **Red (R), Green (G), and Blue (B)**. Each pixel intensity is an 8-bit unsigned integer ($uint8$) with values spanning $[0, 255]$.\n\n#### Image Decoding\nStored JPEG images are compressed using Discrete Cosine Transform (DCT) quantization. During input pipeline execution, TensorFlow decompresses raw binary bitstreams into uncompressed 3D arrays of numerical pixel intensities.\n\n#### Image Resizing and Spatial Downsampling\nDeep neural networks process data in batches, requiring fixed, standardized tensor dimensions ($B \\times H \\times W \\times C$):\n- **EfficientNetB0 Resolution:** Input images are standardized to **$224 \\times 224$ pixels**.\n- **Computational Trade-Off:** Resizing standardizes camera captures of varying resolutions into $224 \\times 224 \\times 3 = 150,528$ values, balancing computational throughput with structural fidelity.\n- **Resolution Loss:** Downsampling high-resolution images can blur subtle early-stage fungal pustules or faint leaf miner tracks.\n- **Aspect Ratio Distortion:** Direct bilinear downsampling to a square without padding may stretch non-square camera frames."
+    },
+    {
+      "cell_idx": 9,
+      "raw_markdown": "### CELL 4 ── Hyper-parameters & Data Loaders\n"
+    },
+    {
+      "cell_idx": 12,
+      "raw_markdown": "### CELL 5 ── Explore: Sample Images\n"
+    },
+    {
+      "cell_idx": 14,
+      "raw_markdown": "### CELL 6 ── Class Distribution\n"
+    },
+    {
+      "cell_idx": 16,
+      "raw_markdown": "### DIP: Geometric and Intensity Transformations\n\nData augmentation applies digital image processing transformations to synthetic training images, expanding effective dataset variance and enforcing invariance to camera orientation and field illumination.\n\n#### 1. Geometric Transformations (Spatial Coordinate Remapping)\nGeometric transformations alter the spatial coordinates $(x, y)$ of image pixels via 2D spatial mapping functions $I'(x', y') = I(T_x(x, y), T_y(x, y))$:\n- **Spatial Reflection (Flipping):** `RandomFlip(\"horizontal_and_vertical\")` reflects pixels across horizontal ($y' = H - y$) and vertical ($x' = W - x$) axes. Foliar diseases possess no fixed gravitational orientation.\n- **Rotation:** `RandomRotation(0.25)` applies 2D affine rotation. In Keras, a factor of **$0.25$ represents a fraction of $2\\pi$**, meaning images are randomly rotated within $[-0.25 \\times 360^\\circ, +0.25 \\times 360^\\circ] = [-90^\\circ, +90^\\circ]$ (a full quarter turn), **not** 25 degrees.\n- **Scaling (Zoom):** `RandomZoom(0.20)` scales coordinates by $\\pm 20\\%$, simulating variable camera working distances.\n\n#### 2. Intensity Transformations (Radiometric Point Operations)\nIntensity transformations modify pixel intensity values directly without altering spatial pixel geometry:\n- **Contrast Adjustment:** `RandomContrast(0.15)` dynamically stretches or compresses the image dynamic range around its mean intensity: $I'(x,y) = \\bar{I} + c \\cdot (I(x,y) - \\bar{I})$, simulating variable ambient daylight and cloud cover.\n- **Brightness Adjustment:** `RandomBrightness(0.10)` shifts intensity levels additively: $I'(x,y) = I(x,y) + \\delta$, simulating overexposure or deep canopy shading."
+    },
+    {
+      "cell_idx": 17,
+      "raw_markdown": "### CELL 7 ── Data Augmentation\n"
+    },
+    {
+      "cell_idx": 20,
+      "raw_markdown": "### DIP: Convolutional Filtering and Hierarchical Feature Extraction\n\n#### Mathematical Formulation of 2D Spatial Convolution\nIn discrete 2D digital image processing, spatial filtering correlates an input feature map $X$ with a 2D filter kernel $K$ of spatial dimensions $M \\times N$:\n\n$$Y(i, j) = (X * K)(i, j) = \\sum_{m=-M/2}^{M/2} \\sum_{n=-N/2}^{N/2} K(m, n) \\cdot X(i + m, j + n)$$\n\n#### EfficientNetB0: MBConv Blocks & Squeeze-and-Excitation Channel Attention\nEfficientNetB0 builds upon inverted bottleneck residual blocks augmented with **Squeeze-and-Excitation (SE)** attention:\n1. **Depthwise Spatial Convolution:** Computes spatial feature responses per channel using $3 \\times 3$ or $5 \\times 5$ depthwise kernels.\n2. **Squeeze Step (Global Context Aggregation):** Global spatial average pooling aggregates feature map $U_c$ into a channel-wise statistic $z_c$:\n   $$z_c = \\mathbf{F}_{sq}(U_c) = \\frac{1}{H \\times W} \\sum_{i=1}^H \\sum_{j=1}^W U_c(i, j)$$\n3. **Excitation Step (Adaptive Feature Recalibration):** A two-layer bottleneck fully-connected network with gating produces channel-specific scale weights:\n   $$\\mathbf{s} = \\mathbf{F}_{ex}(\\mathbf{z}, \\mathbf{W}) = \\sigma(\\mathbf{W}_2 \\cdot \\text{ReLU}(\\mathbf{W}_1 \\cdot \\mathbf{z}))$$\n4. **Channel Scaling:** The original spatial feature map is scaled by the channel weight:\n   $$\\widetilde{X}_c = s_c \\cdot U_c$$\n   In crop disease detection, this dynamic channel weighting automatically boosts channels highlighting chlorotic yellowing or necrotic lesion edges while dampening irrelevant soil background channels.\n\n---\n\n### DIP: Pixel Intensity Preprocessing\n\n| Model | Preprocessing Function | Expected Pixel Scale | Transformations Applied |\n|---|---|---|---|\n| **EfficientNetB0** | Built-in internal normalization | Raw $[0, 255]$ uint8/float32 | Internal rescaling and ImageNet standardization embedded inside Keras model |\n\n#### Critical Preprocessing Note:\nUnlike ResNet50 or MobileNetV2, **EfficientNet includes its own Rescaling and Normalization layers inside the base model architecture**.\nRaw pixel tensors in the range $[0, 255]$ must be fed directly into the model without applying external `preprocess_input` or manual `/ 255.0` rescaling, avoiding double normalization."
+    },
+    {
+      "cell_idx": 21,
+      "raw_markdown": "### CELL 8 ── Build EfficientNetB0 Transfer Learning Model\n"
+    },
+    {
+      "cell_idx": 23,
+      "raw_markdown": "### Digital Image Processing vs. Machine Learning in Model Training\n\n- **Image Processing Operations:** Resizing to $224 \\times 224$, geometric coordinate transforms (flips, rotations, zooms), internal pixel normalization, depthwise spatial convolutions, Squeeze-and-Excitation channel recalibration, and global average pooling.\n- **Machine Learning Operations:** Categorical cross-entropy loss computation, error backpropagation, Adam optimizer weight updates, learning rate reduction on plateaus, transfer learning backbone freezing (Phase 1), and selective layer unfreezing (Phase 2 fine-tuning).\n\nDIP structures the optical signals into informative spatial feature representations; ML discovers the optimal weighting parameters across those representations."
+    },
+    {
+      "cell_idx": 24,
+      "raw_markdown": "### CELL 9 ── Compile & Train Phase 1 (frozen backbone)\n"
+    },
+    {
+      "cell_idx": 26,
+      "raw_markdown": "### CELL 10 ── Fine-Tuning Phase 2 (unfreeze last 20 layers)\n"
+    },
+    {
+      "cell_idx": 28,
+      "raw_markdown": "### CELL 11 ── Training Curves"
+    },
+    {
+      "cell_idx": 30,
+      "raw_markdown": "### CELL 12 ── Evaluate on Test Set\n"
+    },
+    {
+      "cell_idx": 32,
+      "raw_markdown": "### CELL 13 ── Confusion Matrix & Classification Report\n"
+    },
+    {
+      "cell_idx": 34,
+      "raw_markdown": "### CELL 14 ── Per-Class Accuracy Bar Chart\n"
+    },
+    {
+      "cell_idx": 36,
+      "raw_markdown": "### CELL 15 ── Sample Predictions Grid (Green = Correct, Red = Wrong)\n"
+    },
+    {
+      "cell_idx": 38,
+      "raw_markdown": "### Interpretation of Image-Based Classification Results\n\nIn evaluating the sample prediction grid and confusion matrix from a digital image processing perspective:\n\n1. **Visual Cues Leveraged by the Classifier:**\n   - **Chromatic Discoloration:** Chlorotic margins and dark necrotic lesions serve as primary chromatic markers.\n   - **Spatial Texture:** Powdery mildew, serpentine leaf miner tracks, and fungal spots provide distinct spatial frequency signatures.\n2. **Sources of Inter-Class Confusion:**\n   - **Morphological Similarity:** Early blight and leaf spots produce similar circular necrotic lesions.\n   - **Environmental Artifacts:** Harsh daylight glares and deep foliage shadows can distort color and contrast.\n   - **Complex Backgrounds:** Soil backgrounds and overlapping non-target vegetation introduce spurious edge responses.\n3. **Academic Clarification on Evaluation vs. DIP:**\n   - A **confusion matrix** evaluates categorical classification performance, not digital image processing.\n   - A **whole-image classification label** indicates the diagnosis of the overall image tile; it does **not** generate pixel-level lesion boundary masks.\n   - **Activation maps** show filter responses across spatial receptive fields; they do **not** constitute semantic segmentation masks."
+    },
+    {
+      "cell_idx": 39,
+      "raw_markdown": "### CELL 16 ── Save Final Model\n"
+    },
+    {
+      "cell_idx": 41,
+      "raw_markdown": "### Digital Image Processing Summary and Case Study Findings\n\n#### 1. Input Image Representation and Dimensions\nEfficientNetB0 processes standardized $224 \\times 224 \\times 3$ RGB digital images ($150,528$ pixel intensity values), decoded from JPEG files into numerical arrays.\n\n#### 2. Image Transformations Applied\n- **Geometric Transformations:** Horizontal and vertical reflections, affine rotation ($\\pm 90^\\circ$), and zoom scaling ($\\pm 20\\%$) enforce rotational and scale invariance against camera positioning.\n- **Intensity Transformations:** Contrast adjustment ($\\pm 15\\%$) and brightness shifts ($\\pm 10\\%$) simulate changing sunlight and exposure levels.\n\n#### 3. Pixel Intensity Preprocessing\nEfficientNetB0 incorporates internal rescaling layers directly within its computation graph. Raw $[0, 255]$ pixel values are supplied without external normalization, preventing double rescaling.\n\n#### 4. Convolutional Feature Extraction\nEfficientNetB0 utilizes compound-scaled Mobile Inverted Bottleneck (MBConv) blocks coupled with Squeeze-and-Excitation (SE) channel attention. The SE mechanism dynamically recalibrates feature maps, directing attention to disease-relevant chromatic and textural patterns.\n\n#### 5. Relevance to Crop Disease Identification\nThe compound scaling and channel attention mechanisms provide an optimal balance between parameter efficiency and discriminative representation, allowing the model to distinguish closely related foliar diseases.\n\n#### 6. Limitations of the Image Processing Approach\n- **No Explicit Lesion Segmentation:** Categorizes whole image tiles rather than segmenting individual lesion perimeters.\n- **Downsampling:** Bilinear downsampling to $224 \\times 224$ can suppress very fine micro-lesions.\n- **Background Interference:** In the absence of explicit background masking, complex soil and weed textures can influence predictions."
+    }
+  ],
+  "MobileNet": [
+    {
+      "cell_idx": 0,
+      "raw_markdown": "# MODEL: MobileNetV2\nTASK : Crop Pest and Disease Detection - End-to-End Pipeline\nPaste each CELL block into a separate cell in your Jupyter Notebook.\nRun cells in order from top to bottom.\n\n---\n"
+    },
+    {
+      "cell_idx": 1,
+      "raw_markdown": "### Digital Image Processing Concepts Used in This Model\n\nIn digital image processing (DIP) for agricultural automation, crop pest and disease detection requires extracting discriminative spatial, chromatic, and textural signatures from raw pixel arrays. Foliar infections (such as bacterial leaf blight, viral mosaic mottle, and fungal leaf spot) induce localized tissue breakdown, producing characteristic chlorotic halos and necrotic centers.\n\n#### Why Crop Images Require Preprocessing\n1. **Uncontrolled Illumination:** Field imagery captured under natural sunlight suffers from harsh specular reflections, deep shadow occlusions, and variable diurnal color temperatures.\n2. **Camera Distance and Angle:** Handheld smartphones and agricultural drones capture crops from non-uniform working distances and perspectives.\n3. **Complex Agricultural Backgrounds:** Soil backgrounds, dried twigs, and overlapping healthy leaves introduce high-frequency background clutter.\n4. **Sensor Variations:** Different mobile camera sensors introduce varying noise profiles and dynamic ranges.\n\n#### Spatial and Intensity Transformations in Training\n- **Geometric Transformations:** Random horizontal/vertical reflections, affine rotations, and zoom scaling enforce rotational and scale invariance.\n- **Intensity Transformations:** Contrast adjustment and brightness scaling simulate shifting daylight intensity without modifying lesion geometry.\n\n#### MobileNetV2: Efficient Spatial Filtering via Depthwise Separable Convolutions\nTraditional DIP filters and standard CNN convolutions apply 3D spatial-channel kernels that compute spatial and channel correlations simultaneously. MobileNetV2 factorizes standard convolution into two distinct steps:\n1. **Depthwise Convolution:** Performs 2D spatial filtering per input channel independently (retaining spatial gradient patterns).\n2. **Pointwise Convolution:** Applies $1 \\times 1$ linear projections to compute cross-channel linear combinations.\n\nThis factorization drastically reduces floating-point operations (FLOPs) and memory access, making MobileNetV2 optimal for real-time edge processing on smartphones and field scouting hardware.\n\n#### End-to-End DIP & Classification Pipeline\n$$\\text{Input Image } (H \\times W \\times 3) \\longrightarrow \\text{Image Decoding \\& Resizing } (224 \\times 224) \\longrightarrow \\text{Data Augmentation } \\longrightarrow \\text{MobileNet Preprocessing } [-1, 1] \\longrightarrow \\text{Depthwise Separable Feature Extraction } \\longrightarrow \\text{Global Pooling } \\longrightarrow \\text{Dense Classification}$$\n\n> **Important Case Study Note:** This model performs **whole-image classification** (categorizing the overall image into one of 22 pest/disease classes) rather than explicit **semantic pixel segmentation** (which would delineate exact boundary contours for each diseased lesion)."
+    },
+    {
+      "cell_idx": 2,
+      "raw_markdown": "### CELL 1 ── Install Dependencies\n"
+    },
+    {
+      "cell_idx": 4,
+      "raw_markdown": "### CELL 2 ── Imports\n"
+    },
+    {
+      "cell_idx": 6,
+      "raw_markdown": "### CELL 3 ── Verify & Load Local Dataset  (70 / 15 / 15)\n"
+    },
+    {
+      "cell_idx": 8,
+      "raw_markdown": "### DIP: Digital Image Representation, Decoding, and Spatial Resizing\n\n#### Digital Color Image Representation\nA digital color photograph is represented as a 3D numerical matrix of shape $(H \\times W \\times 3)$, where $H$ is the image height, $W$ is the image width, and 3 denotes the primary color channels: **Red (R), Green (G), and Blue (B)**. Each pixel intensity is stored as an 8-bit unsigned integer ($uint8$) with discrete intensity levels $\\in [0, 255]$.\n\n#### Image Decoding\nStored JPEG files are compressed using Discrete Cosine Transform (DCT) quantization. During dataset loading, TensorFlow decodes the binary compressed bitstream into uncompressed 3D numerical arrays of pixel values.\n\n#### Image Resizing and Spatial Downsampling\nBatched tensor processing requires fixed, uniform spatial dimensions across all samples:\n- **MobileNetV2 Standard Resolution:** Input images are resized to **$224 \\times 224$ pixels**.\n- **Computational Trade-Off:** Resizing standardizes camera captures of varying resolutions into $224 \\times 224 \\times 3 = 150,528$ values, balancing computational efficiency with structural fidelity.\n- **Resolution Loss:** Downsampling high-resolution images can blur subtle early-stage fungal pustules or faint leaf miner tracks.\n- **Aspect Ratio Distortion:** Direct bilinear downsampling to a square without padding may stretch non-square camera frames."
+    },
+    {
+      "cell_idx": 9,
+      "raw_markdown": "### CELL 4 ── Hyper-parameters & Data Loaders\n"
+    },
+    {
+      "cell_idx": 12,
+      "raw_markdown": "### CELL 5 ── Explore: Sample Images from Each Split\n"
+    },
+    {
+      "cell_idx": 14,
+      "raw_markdown": "### CELL 6 ── Class Distribution Bar Chart\n"
+    },
+    {
+      "cell_idx": 16,
+      "raw_markdown": "### DIP: Geometric and Intensity Transformations\n\nData augmentation applies digital image processing transformations to synthetic training images, expanding effective dataset variance and enforcing invariance to camera orientation and field illumination.\n\n#### 1. Geometric Transformations (Spatial Coordinate Remapping)\nGeometric transformations alter the spatial coordinates $(x, y)$ of image pixels via 2D spatial mapping functions $I'(x', y') = I(T_x(x, y), T_y(x, y))$:\n- **Spatial Reflection (Flipping):** `RandomFlip(\"horizontal_and_vertical\")` reflects pixels across horizontal ($y' = H - y$) and vertical ($x' = W - x$) axes. Foliar diseases possess no fixed gravitational orientation.\n- **Rotation:** `RandomRotation(0.25)` applies 2D affine rotation. In Keras, a factor of **$0.25$ represents a fraction of $2\\pi$**, meaning images are randomly rotated within $[-0.25 \\times 360^\\circ, +0.25 \\times 360^\\circ] = [-90^\\circ, +90^\\circ]$ (a full quarter turn), **not** 25 degrees.\n- **Scaling (Zoom):** `RandomZoom(0.20)` scales coordinates by $\\pm 20\\%$, simulating variable camera distances.\n\n#### 2. Intensity Transformations (Radiometric Point Operations)\nIntensity transformations modify pixel intensity values directly without altering spatial pixel geometry:\n- **Contrast Adjustment:** `RandomContrast(0.15)` dynamically stretches or compresses the image dynamic range around its mean intensity: $I'(x,y) = \\bar{I} + c \\cdot (I(x,y) - \\bar{I})$, simulating variable ambient daylight and cloud cover.\n- **Brightness Adjustment:** `RandomBrightness(0.10)` shifts intensity levels additively: $I'(x,y) = I(x,y) + \\delta$, simulating overexposure or deep canopy shading."
+    },
+    {
+      "cell_idx": 17,
+      "raw_markdown": "### CELL 7 ── Data Augmentation Pipeline\n"
+    },
+    {
+      "cell_idx": 20,
+      "raw_markdown": "### DIP: Convolutional Filtering and Hierarchical Feature Extraction\n\n#### Mathematical Formulation of 2D Spatial Convolution\nIn discrete 2D digital image processing, spatial filtering correlates an input feature map $X$ with a 2D filter kernel $K$ of spatial dimensions $M \\times N$:\n\n$$Y(i, j) = (X * K)(i, j) = \\sum_{m=-M/2}^{M/2} \\sum_{n=-N/2}^{N/2} K(m, n) \\cdot X(i + m, j + n)$$\n\n#### MobileNetV2: Depthwise Separable Convolutions & Inverted Residuals\nStandard convolution convolves all $C_{in}$ channels simultaneously with $C_{out}$ kernels of size $D_K \\times D_K \\times C_{in}$, requiring $D_K^2 \\cdot C_{in} \\cdot C_{out} \\cdot H \\cdot W$ multiplications.\n\nMobileNetV2 splits this into:\n1. **Depthwise Convolution ($3 \\times 3$):** Applies a single $3 \\times 3$ spatial filter to each input channel independently:\n   $$Y_{depthwise}(i, j, c) = \\sum_{m, n} K_c(m, n) \\cdot X(i+m, j+n, c)$$\n   Computes pure spatial filtering without cross-channel mixing.\n2. **Pointwise Convolution ($1 \\times 1$):** Applies $1 \\times 1$ convolutions across all channels:\n   $$Y_{pointwise}(i, j, k) = \\sum_c W(c, k) \\cdot Y_{depthwise}(i, j, c)$$\n   Computes linear cross-channel combinations.\n\n**Computational Efficiency Gain:**\n$$\\frac{\\text{Depthwise Separable Cost}}{\\text{Standard Conv Cost}} = \\frac{D_K^2 \\cdot C_{in} + C_{in} \\cdot C_{out}}{D_K^2 \\cdot C_{in} \\cdot C_{out}} = \\frac{1}{C_{out}} + \\frac{1}{D_K^2} \\approx \\frac{1}{9}$$\nThis represents an **$8$ to $9\\times$ reduction in spatial computational cost** with minimal accuracy degradation.\n\n3. **Inverted Residuals with Linear Bottlenecks:** Thin bottleneck layers are expanded to high-dimensional representations for non-linear depthwise filtering, then projected back to low-dimensional space with linear activations, preventing non-linearities from destroying manifold details.\n\n---\n\n### DIP: Pixel Intensity Preprocessing\n\n| Model | Preprocessing Function | Expected Pixel Range | Output Range |\n|---|---|---|---|\n| **MobileNetV2** | `tf.keras.applications.mobilenet_v2.preprocess_input` | $[0, 255]$ raw uint8/float32 | $[-1.0, +1.0]$ float32 |\n\n#### Transformation Formula:\n$$X_{norm} = \\frac{X}{127.5} - 1.0$$\nThis centers pixel intensities symmetrically around zero ($[0, 255] \\to [-1.0, 1.0]$), which accelerates gradient convergence in batch-normalized depthwise layers."
+    },
+    {
+      "cell_idx": 21,
+      "raw_markdown": "### CELL 8 ── Build MobileNetV2 Transfer Learning Model\n"
+    },
+    {
+      "cell_idx": 23,
+      "raw_markdown": "### Digital Image Processing vs. Machine Learning in Model Training\n\n- **Image Processing Operations:** Resizing to $224 \\times 224$, geometric coordinate transforms (flips, rotations, zooms), pixel intensity normalization to $[-1, 1]$, depthwise 2D spatial filtering, and global spatial average pooling.\n- **Machine Learning Operations:** Categorical cross-entropy loss computation, error backpropagation, Adam optimizer weight updates, learning rate reduction on plateaus, transfer learning backbone freezing (Phase 1), and selective layer unfreezing (Phase 2 fine-tuning).\n\nDIP structures the optical signals into informative spatial feature representations; ML discovers the optimal weighting parameters across those representations."
+    },
+    {
+      "cell_idx": 24,
+      "raw_markdown": "### CELL 9 ── Compile & Train (Phase 1 — frozen backbone)\n"
+    },
+    {
+      "cell_idx": 26,
+      "raw_markdown": "### CELL 10 ── Fine-Tuning (Phase 2 — unfreeze top 30 layers)\n"
+    },
+    {
+      "cell_idx": 28,
+      "raw_markdown": "### CELL 11 ── Training Curves\n"
+    },
+    {
+      "cell_idx": 30,
+      "raw_markdown": "### CELL 12 ── Evaluate on Test Set\n"
+    },
+    {
+      "cell_idx": 32,
+      "raw_markdown": "### CELL 13 ── Confusion Matrix & Classification Report\n"
+    },
+    {
+      "cell_idx": 34,
+      "raw_markdown": "### CELL 14 ── Per-Class Accuracy Bar Chart\n"
+    },
+    {
+      "cell_idx": 36,
+      "raw_markdown": "### CELL 15 ── Sample Predictions Grid (Green = Correct, Red = Wrong)\n"
+    },
+    {
+      "cell_idx": 38,
+      "raw_markdown": "### Interpretation of Image-Based Classification Results\n\nIn evaluating the sample prediction grid and confusion matrix from a digital image processing perspective:\n\n1. **Visual Cues Leveraged by the Classifier:**\n   - **Chromatic Discoloration:** Chlorotic margins and dark necrotic lesions serve as primary chromatic markers.\n   - **Spatial Texture:** Powdery mildew, serpentine leaf miner tracks, and fungal spots provide distinct spatial frequency signatures.\n2. **Sources of Inter-Class Confusion:**\n   - **Morphological Similarity:** Early blight and leaf spots produce similar circular necrotic lesions.\n   - **Environmental Artifacts:** Harsh daylight glares and deep foliage shadows can distort color and contrast.\n   - **Complex Backgrounds:** Soil backgrounds and overlapping non-target vegetation introduce spurious edge responses.\n3. **Academic Clarification on Evaluation vs. DIP:**\n   - A **confusion matrix** evaluates categorical classification performance, not digital image processing.\n   - A **whole-image classification label** indicates the diagnosis of the overall image tile; it does **not** generate pixel-level lesion boundary masks.\n   - **Activation maps** show filter responses across spatial receptive fields; they do **not** constitute semantic segmentation masks."
+    },
+    {
+      "cell_idx": 39,
+      "raw_markdown": "### CELL 16 ── Save Final Model\n"
+    },
+    {
+      "cell_idx": 41,
+      "raw_markdown": "### Digital Image Processing Summary and Case Study Findings\n\n#### 1. Input Image Representation and Dimensions\nMobileNetV2 processes standardized $224 \\times 224 \\times 3$ RGB digital images ($150,528$ pixel intensity values), decoded from JPEG files into numerical arrays.\n\n#### 2. Image Transformations Applied\n- **Geometric Transformations:** Horizontal and vertical reflections, affine rotation ($\\pm 90^\\circ$), and zoom scaling ($\\pm 20\\%$) enforce rotational and scale invariance against camera positioning.\n- **Intensity Transformations:** Contrast adjustment ($\\pm 15\\%$) and brightness shifts ($\\pm 10\\%$) simulate changing sunlight and exposure levels.\n\n#### 3. Pixel Intensity Preprocessing\nInput tensors are scaled to $[-1.0, +1.0]$ float32 via `mobilenet_v2.preprocess_input` ($X' = X/127.5 - 1.0$), ensuring zero-centered pixel distributions aligned with pretrained ImageNet weights.\n\n#### 4. Convolutional Feature Extraction\nMobileNetV2 uses Depthwise Separable Convolutions to decouple 2D spatial filtering ($3 \\times 3$ depthwise) from channel combination ($1 \\times 1$ pointwise), reducing computation by $\\approx 89\\%$. Inverted residuals with linear bottlenecks preserve delicate symptom features.\n\n#### 5. Relevance to Crop Disease Identification\nThe lightweight depthwise separable architecture delivers high classification capability while remaining efficient enough for real-time mobile and drone deployment in precision agriculture.\n\n#### 6. Limitations of the Image Processing Approach\n- **No Explicit Lesion Segmentation:** Categorizes whole image tiles rather than segmenting individual lesion perimeters.\n- **Downsampling:** Bilinear downsampling to $224 \\times 224$ can suppress very fine micro-lesions.\n- **Background Interference:** In the absence of explicit background masking, complex soil and weed textures can influence predictions."
+    }
+  ],
+  "ResNet50": [
+    {
+      "cell_idx": 0,
+      "raw_markdown": "# MODEL: ResNet50\nTASK : Crop Pest and Disease Detection - End-to-End Pipeline\nPaste each CELL block into a separate cell in your Jupyter Notebook.\nRun cells in order from top to bottom.\n\n---\n"
+    },
+    {
+      "cell_idx": 1,
+      "raw_markdown": "### Digital Image Processing Concepts Used in This Model\n\nIn digital image processing (DIP) applied to plant pathology, diagnosing crop pests and diseases requires analyzing multi-scale spatial textures, color channel variations, and morphological boundaries in leaf imagery. Pathological indicators—such as necrotic leaf spot margins, bacterial blights, and viral streak patterns—create localized high-frequency spatial gradients against healthy foliage.\n\n#### Why Crop Images Require Preprocessing\n1. **Uncontrolled Outdoor Lighting:** Natural field illumination introduces solar glare, deep shadows, and color temperature shifts that distort raw pixel intensity distributions.\n2. **Variable Capture Perspective:** Handheld and drone cameras capture leaves at diverse angles and distances, altering apparent symptom dimensions and orientation.\n3. **Complex Agricultural Backgrounds:** Soil, dead organic mulch, and background foliage introduce non-target high-frequency spatial noise.\n4. **Sensor Downsampling & Quantization:** Converting optical signals into digital matrices requires standardized spatial and radiometric normalization.\n\n#### Spatial and Intensity Transformations in Training\n- **Geometric Transformations:** Horizontal and vertical reflections, affine rotations ($\\pm 90^\\circ$), and zoom scaling enforce rotational and scale invariance.\n- **Intensity Transformations:** Contrast stretching and brightness adjustments simulate varying daylight intensity without altering structural lesion morphology.\n\n#### ResNet50: Deep Feature Extraction via Residual Connections\nStandard deep convolutional networks suffer from the **vanishing gradient problem**, where spatial gradient signals attenuate as they backpropagate through dozens of layers. ResNet50 resolves this using **identity skip connections**:\n$$H(x) = F(x) + x$$\nWhere $F(x)$ represents the residual mapping learned by stacked convolutional layers, and $x$ is the unperturbed identity input. This architecture allows gradients to flow directly through 50 layers, enabling the extraction of deeply abstract, hierarchical disease representations that capture both fine local lesion margins and broad contextual leaf structures.\n\n#### End-to-End DIP & Classification Pipeline\n$$\\text{Input Image } (H \\times W \\times 3) \\longrightarrow \\text{Image Decoding \\& Resizing } (224 \\times 224) \\longrightarrow \\text{Data Augmentation } \\longrightarrow \\text{ResNet Preprocessing (BGR + Mean Subtraction)} \\longrightarrow \\text{Deep Residual Feature Extraction } \\longrightarrow \\text{Global Pooling } \\longrightarrow \\text{Dense Classification}$$\n\n> **Important Case Study Note:** This model performs **whole-image classification** (predicting the disease category for the entire tile) rather than explicit **semantic pixel segmentation** (which would delineate exact boundary contours for each diseased lesion)."
+    },
+    {
+      "cell_idx": 2,
+      "raw_markdown": "### CELL 1 ── Install Dependencies\n"
+    },
+    {
+      "cell_idx": 4,
+      "raw_markdown": "### CELL 2 ── Imports\n"
+    },
+    {
+      "cell_idx": 6,
+      "raw_markdown": "### CELL 3 ── Verify & Load Local Dataset  (70 / 15 / 15)\n"
+    },
+    {
+      "cell_idx": 8,
+      "raw_markdown": "### DIP: Digital Image Representation, Decoding, and Spatial Resizing\n\n#### Digital Color Image Representation\nA digital color photograph is represented as a 3D numerical matrix of shape $(H \\times W \\times 3)$, where $H$ is the spatial height, $W$ is the spatial width, and 3 represents the primary color channels: **Red (R), Green (G), and Blue (B)**. Each pixel intensity is an 8-bit unsigned integer ($uint8$) with values spanning $[0, 255]$.\n\n#### Image Decoding\nStored JPEG images are compressed using Discrete Cosine Transform (DCT) quantization. During input pipeline execution, TensorFlow decompresses raw binary bitstreams into uncompressed 3D arrays of numerical pixel intensities.\n\n#### Image Resizing and Spatial Downsampling\nDeep neural networks process data in batches, requiring fixed, standardized tensor dimensions ($B \\times H \\times W \\times C$):\n- **ResNet50 Input Resolution:** All input images are standardized to **$224 \\times 224$ pixels**.\n- **Computational Trade-Off:** Resizing standardizes camera captures of varying resolutions into $224 \\times 224 \\times 3 = 150,528$ values, balancing computational throughput with structural fidelity.\n- **Resolution Loss:** Downsampling high-resolution images can blur subtle early-stage fungal pustules or faint leaf miner tracks.\n- **Aspect Ratio Distortion:** Direct bilinear downsampling to a square without padding may stretch non-square camera frames."
+    },
+    {
+      "cell_idx": 9,
+      "raw_markdown": "### CELL 4 ── Hyper-parameters & Data Loaders\n"
+    },
+    {
+      "cell_idx": 12,
+      "raw_markdown": "### CELL 5 ── Explore: Sample Images\n"
+    },
+    {
+      "cell_idx": 14,
+      "raw_markdown": "### CELL 6 ── Class Distribution\n"
+    },
+    {
+      "cell_idx": 16,
+      "raw_markdown": "### DIP: Geometric and Intensity Transformations\n\nData augmentation applies digital image processing transformations to synthetic training images, expanding effective dataset variance and enforcing invariance to camera orientation and field illumination.\n\n#### 1. Geometric Transformations (Spatial Coordinate Remapping)\nGeometric transformations alter the spatial coordinates $(x, y)$ of image pixels via 2D spatial mapping functions $I'(x', y') = I(T_x(x, y), T_y(x, y))$:\n- **Spatial Reflection (Flipping):** `RandomFlip(\"horizontal_and_vertical\")` reflects pixels across horizontal ($y' = H - y$) and vertical ($x' = W - x$) axes. Foliar diseases possess no fixed gravitational orientation.\n- **Rotation:** `RandomRotation(0.25)` applies 2D affine rotation. In Keras, a factor of **$0.25$ represents a fraction of $2\\pi$**, meaning images are randomly rotated within $[-0.25 \\times 360^\\circ, +0.25 \\times 360^\\circ] = [-90^\\circ, +90^\\circ]$ (a full quarter turn), **not** 25 degrees.\n- **Scaling (Zoom):** `RandomZoom(0.20)` scales coordinates by $\\pm 20\\%$, simulating variable camera working distances.\n\n#### 2. Intensity Transformations (Radiometric Point Operations)\nIntensity transformations modify pixel intensity values directly without altering spatial pixel geometry:\n- **Contrast Adjustment:** `RandomContrast(0.15)` dynamically stretches or compresses the image dynamic range around its mean intensity: $I'(x,y) = \\bar{I} + c \\cdot (I(x,y) - \\bar{I})$, simulating variable ambient daylight and cloud cover.\n- **Brightness Adjustment:** `RandomBrightness(0.10)` shifts intensity levels additively: $I'(x,y) = I(x,y) + \\delta$, simulating overexposure or deep canopy shading."
+    },
+    {
+      "cell_idx": 17,
+      "raw_markdown": "### CELL 7 ── Data Augmentation\n"
+    },
+    {
+      "cell_idx": 20,
+      "raw_markdown": "### DIP: Convolutional Filtering and Hierarchical Feature Extraction\n\n#### Mathematical Formulation of 2D Spatial Convolution\nIn discrete 2D digital image processing, spatial filtering correlates an input feature map $X$ with a 2D filter kernel $K$ of spatial dimensions $M \\times N$:\n\n$$Y(i, j) = (X * K)(i, j) = \\sum_{m=-M/2}^{M/2} \\sum_{n=-N/2}^{N/2} K(m, n) \\cdot X(i + m, j + n)$$\n\n#### ResNet50: Deep Bottleneck Residual Architecture\nResNet50 implements a 50-layer hierarchical feature extractor organized into 5 stages using **Bottleneck Residual Blocks**:\n1. **$1 \\times 1$ Convolution (Projection):** Compresses channel dimensionality to reduce computational load.\n2. **$3 \\times 3$ Spatial Convolution:** Performs spatial filtering to capture oriented edges, color transitions, and lesion textures.\n3. **$1 \\times 1$ Convolution (Expansion):** Restores channel dimensionality back to high-capacity representation.\n4. **Identity Shortcut Connection:**\n   $$H(x) = \\sigma(F(x, \\{W_i\\}) + x)$$\n   Where $F(x)$ is the residual mapping and $x$ is the identity shortcut. This residual architecture preserves low-level spatial gradient information across deep feature hierarchies, preventing vanishing gradients.\n\n#### Feature Hierarchy in Crop Pathology\n- **Stages 1 & 2:** Capture low-level spatial primitives: sharp leaf edges, specular highlights, and primary vein contours.\n- **Stage 3:** Isolates textural primitives: fungal spore clusters, chlorotic halos, and lesion boundaries.\n- **Stages 4 & 5:** Synthesize complex pathological phenotypes: systemic viral mosaic patterns, severe bacterial blight spread, and leaf curl distortions.\n\n---\n\n### DIP: Pixel Intensity Preprocessing\n\n| Model | Preprocessing Function | Expected Pixel Scale | Transformations Applied |\n|---|---|---|---|\n| **ResNet50** | `tf.keras.applications.resnet50.preprocess_input` | $[0, 255]$ raw uint8/float32 | 1. RGB $\\to$ BGR channel permutation<br>2. ImageNet mean subtraction: $[-103.939, -116.779, -123.68]$ |\n\n#### Preprocessing Mechanism:\nUnlike models that rescale to $[0, 1]$ or $[-1, 1]$, ResNet50 retains raw dynamic magnitude while:\n1. Reordering channels from RGB to **BGR** to match the legacy Caffe framework format.\n2. Centering pixel intensities by subtracting the mean ImageNet channel vector:\n   $$B' = B - 103.939, \\quad G' = G - 116.779, \\quad R' = R - 123.68$$\nThis centers data around the origin, improving gradient flow during convolutional optimization."
+    },
+    {
+      "cell_idx": 21,
+      "raw_markdown": "### CELL 8 ── Build ResNet50 Transfer Learning Model\n"
+    },
+    {
+      "cell_idx": 23,
+      "raw_markdown": "### DIP: Visualizing Pretrained Convolutional Feature Maps\n\nBelow, we pass a sample test image through the pretrained ResNet50 backbone to inspect the activation feature maps produced by its very first convolutional layer (`conv1_conv`)."
+    },
+    {
+      "cell_idx": 25,
+      "raw_markdown": "### Digital Image Processing vs. Machine Learning in Model Training\n\n- **Image Processing Operations:** Resizing to $224 \\times 224$, geometric coordinate transforms (flips, rotations, zooms), RGB to BGR channel reordering, ImageNet mean centering, 2D bottleneck spatial convolutions, and global average pooling.\n- **Machine Learning Operations:** Categorical cross-entropy loss computation, error backpropagation, Adam optimizer weight updates, learning rate reduction on plateaus, transfer learning backbone freezing (Phase 1), and selective layer unfreezing (Phase 2 fine-tuning).\n\nDIP structures the optical signals into informative spatial feature representations; ML discovers the optimal weighting parameters across those representations."
+    },
+    {
+      "cell_idx": 26,
+      "raw_markdown": "### CELL 9 ── Compile & Train Phase 1 (frozen backbone)\n"
+    },
+    {
+      "cell_idx": 28,
+      "raw_markdown": "### CELL 10 ── Fine-Tuning Phase 2 (unfreeze last 20 layers)\n"
+    },
+    {
+      "cell_idx": 30,
+      "raw_markdown": "### CELL 11 ── Training Curves\n"
+    },
+    {
+      "cell_idx": 32,
+      "raw_markdown": "### CELL 12 ── Evaluate on Test Set\n"
+    },
+    {
+      "cell_idx": 34,
+      "raw_markdown": "### CELL 13 ── Confusion Matrix & Classification Report\n"
+    },
+    {
+      "cell_idx": 36,
+      "raw_markdown": "### CELL 14 ── Per-Class Accuracy Bar Chart\n"
+    },
+    {
+      "cell_idx": 38,
+      "raw_markdown": "### CELL 15 ── Sample Predictions Grid (Green = Correct, Red = Wrong)\n"
+    },
+    {
+      "cell_idx": 40,
+      "raw_markdown": "### Interpretation of Image-Based Classification Results\n\nIn evaluating the sample prediction grid and confusion matrix from a digital image processing perspective:\n\n1. **Visual Cues Leveraged by the Classifier:**\n   - **Chromatic Discoloration:** Chlorotic margins and dark necrotic lesions serve as primary chromatic markers.\n   - **Spatial Texture:** Powdery mildew, serpentine leaf miner tracks, and fungal spots provide distinct spatial frequency signatures.\n2. **Sources of Inter-Class Confusion:**\n   - **Morphological Similarity:** Early blight and leaf spots produce similar circular necrotic lesions.\n   - **Environmental Artifacts:** Harsh daylight glares and deep foliage shadows can distort color and contrast.\n   - **Complex Backgrounds:** Soil backgrounds and overlapping non-target vegetation introduce spurious edge responses.\n3. **Academic Clarification on Evaluation vs. DIP:**\n   - A **confusion matrix** evaluates categorical classification performance, not digital image processing.\n   - A **whole-image classification label** indicates the diagnosis of the overall image tile; it does **not** generate pixel-level lesion boundary masks.\n   - **Activation maps** show filter responses across spatial receptive fields; they do **not** constitute semantic segmentation masks."
+    },
+    {
+      "cell_idx": 41,
+      "raw_markdown": "### CELL 16 ── Save Final Model\n"
+    },
+    {
+      "cell_idx": 43,
+      "raw_markdown": "### Digital Image Processing Summary and Case Study Findings\n\n#### 1. Input Image Representation and Dimensions\nResNet50 processes standardized $224 \\times 224 \\times 3$ RGB digital images ($150,528$ pixel intensity values), decoded from JPEG files into numerical arrays.\n\n#### 2. Image Transformations Applied\n- **Geometric Transformations:** Horizontal and vertical reflections, affine rotation ($\\pm 90^\\circ$), and zoom scaling ($\\pm 20\\%$) enforce rotational and scale invariance against camera positioning.\n- **Intensity Transformations:** Contrast adjustment ($\\pm 15\\%$) and brightness shifts ($\\pm 10\\%$) simulate changing sunlight and exposure levels.\n\n#### 3. Pixel Intensity Preprocessing\nInput tensors undergo channel permutation from RGB to BGR, followed by ImageNet channel mean subtraction ($[-103.939, -116.779, -123.68]$) via `resnet50.preprocess_input`.\n\n#### 4. Convolutional Feature Extraction\nResNet50 employs a 50-layer deep bottleneck residual architecture. Identity shortcut connections preserve spatial gradient signals across deep hierarchies, enabling the network to learn rich, abstract pathological features without degradation.\n\n#### 5. Relevance to Crop Disease Identification\nThe deep bottleneck architecture successfully extracts intricate visual features of foliar diseases, including irregular lesion contours, halo chlorosis, and textural disfigurations.\n\n#### 6. Limitations of the Image Processing Approach\n- **No Explicit Lesion Segmentation:** Categorizes whole image tiles rather than segmenting individual lesion perimeters.\n- **Downsampling:** Bilinear downsampling to $224 \\times 224$ can suppress very fine micro-lesions.\n- **Background Interference:** In the absence of explicit background masking, complex soil and weed textures can influence predictions."
+    }
+  ],
+  "VGG16": [
+    {
+      "cell_idx": 0,
+      "raw_markdown": "# MODEL: VGG16\nTASK : Crop Pest and Disease Detection - End-to-End Pipeline\nPaste each CELL block into a separate cell in your Jupyter Notebook.\nRun cells in order from top to bottom.\n\n---\n"
+    },
+    {
+      "cell_idx": 1,
+      "raw_markdown": "### Digital Image Processing Concepts Used in This Model\n\nIn digital image processing (DIP) for plant pathology, diagnosing foliar crop diseases relies on detecting localized color changes, edge transitions, and spatial surface textures in digital leaf photographs. Pathogens cause tissue degradation that alters light absorption and reflection, resulting in distinctive chlorotic halos and necrotic lesions.\n\n#### Why Crop Images Require Preprocessing\n1. **Field Illumination Shifts:** Uncontrolled natural daylight introduces specular highlights, shadows, and varying color temperatures.\n2. **Variable Capture Perspective:** Handheld and drone cameras capture leaves at diverse angles and distances, altering apparent symptom dimensions and orientation.\n3. **Complex Agricultural Backgrounds:** Soil, dead organic mulch, and background foliage introduce non-target high-frequency spatial noise.\n4. **Sensor Downsampling & Quantization:** Converting optical signals into digital matrices requires standardized spatial and radiometric normalization.\n\n#### Spatial and Intensity Transformations in Training\n- **Geometric Transformations:** Horizontal spatial reflection, affine rotation ($\\pm 72^\\circ$), and zoom scaling enforce rotational and viewpoint invariance.\n- **Intensity Transformations:** Contrast adjustment simulates variable ambient illumination without changing lesion morphology.\n\n#### VGG16: Hierarchical Feature Extraction via Stacked Small Kernels\nVGG16 is a foundational, classical architecture composed of **homogeneous stacked $3 \\times 3$ convolution filters** and **$2 \\times 2$ max-pooling**. In digital image processing, it serves as a textbook demonstration of **receptive field enlargement**:\n- Cascading two $3 \\times 3$ convolution layers produces an effective spatial receptive field equivalent to a single $5 \\times 5$ filter.\n- Cascading three $3 \\times 3$ convolutions achieves a $7 \\times 7$ receptive field.\n\nUsing stacked $3 \\times 3$ filters uses significantly fewer parameters ($3 \\times 3^2 = 27$ weights vs. $7^2 = 49$ weights—a **$45\\%$ parameter reduction**) while introducing intermediate non-linear activations after each filter.\n\n#### End-to-End DIP & Classification Pipeline\n$$\\text{Input Image } (H \\times W \\times 3) \\longrightarrow \\text{Image Decoding \\& Resizing } (224 \\times 224) \\longrightarrow \\text{Data Augmentation } \\longrightarrow \\text{VGG16 Preprocessing (BGR + Mean Subtraction)} \\longrightarrow \\text{Stacked 3x3 Conv Blocks } \\longrightarrow \\text{Flatten \\& Dense Head } \\longrightarrow \\text{Classification}$$\n\n> **Important Case Study Note:** This model performs **whole-image classification** (predicting the disease category for the entire tile) rather than explicit **semantic pixel segmentation** (which would delineate exact boundary contours for each diseased lesion)."
+    },
+    {
+      "cell_idx": 2,
+      "raw_markdown": "### CELL 1 ── Install Dependencies\n"
+    },
+    {
+      "cell_idx": 4,
+      "raw_markdown": "### CELL 2 ── Imports\n"
+    },
+    {
+      "cell_idx": 6,
+      "raw_markdown": "### CELL 3 ── Verify & Load Local Dataset  (70 / 15 / 15)\n"
+    },
+    {
+      "cell_idx": 8,
+      "raw_markdown": "### DIP: Digital Image Representation, Decoding, and Spatial Resizing\n\n#### Digital Color Image Representation\nA digital color photograph is represented as a 3D numerical matrix of shape $(H \\times W \\times 3)$, where $H$ is the spatial height, $W$ is the spatial width, and 3 represents the primary color channels: **Red (R), Green (G), and Blue (B)**. Each pixel intensity is an 8-bit unsigned integer ($uint8$) with values spanning $[0, 255]$.\n\n#### Image Decoding\nStored JPEG images are compressed using Discrete Cosine Transform (DCT) quantization. During input pipeline execution, TensorFlow decompresses raw binary bitstreams into uncompressed 3D arrays of numerical pixel intensities.\n\n#### Image Resizing and Spatial Downsampling\nDeep neural networks process data in batches, requiring fixed, standardized tensor dimensions ($B \\times H \\times W \\times C$):\n- **VGG16 Standard Resolution:** All input images are standardized to **$224 \\times 224$ pixels**.\n- **Batch Size Configuration:** VGG16 contains a very large parameter footprint ($138\\text{M}$ total / $14.7\\text{M}$ backbone, with a large Dense head following `layers.Flatten()`). To avoid GPU Out-of-Memory (OOM) errors, **`BATCH_SIZE = 16`** is used.\n- **Resolution Loss:** Downsampling high-resolution images to $224 \\times 224$ can suppress very fine early-stage micro-pustules.\n- **Aspect Ratio Distortion:** Direct bilinear downsampling to a square without padding may stretch non-square camera frames."
+    },
+    {
+      "cell_idx": 9,
+      "raw_markdown": "### CELL 4 ── Hyper-parameters & Data Loaders\n"
+    },
+    {
+      "cell_idx": 12,
+      "raw_markdown": "### CELL 5 ── Explore: Sample Images\n"
+    },
+    {
+      "cell_idx": 14,
+      "raw_markdown": "### CELL 6 ── Class Distribution\n"
+    },
+    {
+      "cell_idx": 16,
+      "raw_markdown": "### DIP: Geometric and Intensity Transformations\n\nData augmentation applies digital image processing transformations to synthetic training images, expanding effective dataset variance and enforcing invariance to camera orientation and field illumination.\n\n#### Important: VGG16 Augmentation Pipeline Configuration\nUnlike the other model notebooks in this project, **VGG16 uses a specialized, conservative augmentation pipeline**:\n1. **Geometric Transformations:**\n   - **Horizontal Flipping Only:** `RandomFlip(\"horizontal\")` reflects pixels across the vertical axis. Vertical flip is intentionally omitted to prevent unnatural leaf vein orientations.\n   - **Rotation:** `RandomRotation(0.20)` applies 2D affine rotation. In Keras, a factor of **$0.20$ represents a fraction of $2\\pi$**, meaning images are randomly rotated within $[-0.20 \\times 360^\\circ, +0.20 \\times 360^\\circ] = [-72^\\circ, +72^\\circ]$, **not** 20 degrees.\n   - **Scaling (Zoom):** `RandomZoom(0.15)` scales coordinates by $\\pm 15\\%$, simulating variable camera distances.\n2. **Intensity Transformations:**\n   - **Contrast Adjustment:** `RandomContrast(0.10)` adjusts dynamic range by $\\pm 10\\%$.\n   - **Note:** `RandomBrightness` is **not included** in VGG16's augmentation sequence, preserving natural luminance levels for VGG16's sensitive dense classification head."
+    },
+    {
+      "cell_idx": 17,
+      "raw_markdown": "### CELL 7 ── Data Augmentation\n"
+    },
+    {
+      "cell_idx": 20,
+      "raw_markdown": "### DIP: Convolutional Filtering and Hierarchical Feature Extraction\n\n#### Mathematical Formulation of 2D Spatial Convolution\nIn discrete 2D digital image processing, spatial filtering correlates an input feature map $X$ with a 2D filter kernel $K$ of spatial dimensions $M \\times N$:\n\n$$Y(i, j) = (X * K)(i, j) = \\sum_{m=-M/2}^{M/2} \\sum_{n=-N/2}^{N/2} K(m, n) \\cdot X(i + m, j + n)$$\n\n#### VGG16: Stacked Convolution Blocks and Spatial Feature Hierarchy\nVGG16 consists of 13 convolutional layers arranged into 5 blocks followed by max-pooling layers:\n- **Block 1 (2 layers, 64 filters of $3 \\times 3$):** Receptive field of $5 \\times 5$. Extracts low-level spatial primitives: high-contrast leaf edges, primary vein boundaries, and color transitions.\n- **Block 2 (2 layers, 128 filters of $3 \\times 3$):** Receptive field of $14 \\times 14$. Captures structural vein bifurcations, localized color gradients, and leaf contour curvatures.\n- **Block 3 (3 layers, 256 filters of $3 \\times 3$):** Receptive field of $40 \\times 40$. Detects textural primitives: circular fungal spots, necrotic halos, and powdery patches.\n- **Blocks 4 & 5 (3 layers each, 512 filters of $3 \\times 3$):** Large receptive fields ($>100 \\times 100$). Synthesize complex, high-level disease phenotypes: leaf blight progression, mosaic patterns, and severe pest damage.\n- **Dense Classification Head:** Unlike models using Global Average Pooling, VGG16 flattens spatial feature maps (`layers.Flatten()`) into a high-dimensional vector connected to Dense layers, retaining spatial configuration at the expense of parameter volume.\n\n---\n\n### DIP: Pixel Intensity Preprocessing\n\n| Model | Preprocessing Function | Expected Pixel Scale | Transformations Applied |\n|---|---|---|---|\n| **VGG16** | `tf.keras.applications.vgg16.preprocess_input` | $[0, 255]$ raw uint8/float32 | 1. RGB $\\to$ BGR channel permutation<br>2. ImageNet mean subtraction: $[-103.939, -116.779, -123.68]$ |\n\n#### Preprocessing Mechanism:\nVGG16 standardizes input tensors by:\n1. Reordering color channels from RGB to **BGR** to match the original VGG team's Caffe implementation.\n2. Centering pixel intensities by subtracting the ImageNet mean channel values without scaling to $[0, 1]$:\n   $$B' = B - 103.939, \\quad G' = G - 116.779, \\quad R' = R - 123.68$$\nThis centers data symmetrically around zero, accelerating backpropagation convergence."
+    },
+    {
+      "cell_idx": 21,
+      "raw_markdown": "### CELL 8 ── Build VGG16 Transfer Learning Model\n"
+    },
+    {
+      "cell_idx": 23,
+      "raw_markdown": "### DIP: Visualizing Pretrained Convolutional Feature Maps\n\nBelow, we pass a sample test image through the pretrained VGG16 backbone to inspect the activation feature maps produced by its very first convolutional layer (`block1_conv1`)."
+    },
+    {
+      "cell_idx": 25,
+      "raw_markdown": "### Digital Image Processing vs. Machine Learning in Model Training\n\n- **Image Processing Operations:** Resizing to $224 \\times 224$, geometric coordinate transforms (horizontal flip, rotation, zoom), RGB to BGR channel reordering, ImageNet mean centering, 2D stacked spatial convolutions, and max-pooling downsampling.\n- **Machine Learning Operations:** Categorical cross-entropy loss computation, error backpropagation, Adam optimizer weight updates, learning rate reduction on plateaus, transfer learning backbone freezing (Phase 1), and unfreezing the final convolutional block (`block5`) for fine-tuning (Phase 2).\n\nDIP structures the optical signals into informative spatial feature representations; ML discovers the optimal weighting parameters across those representations."
+    },
+    {
+      "cell_idx": 26,
+      "raw_markdown": "### CELL 9 ── Compile & Train Phase 1 (frozen backbone)\n"
+    },
+    {
+      "cell_idx": 28,
+      "raw_markdown": "### CELL 10 ── Fine-Tuning Phase 2 (unfreeze last conv block: block5)\n"
+    },
+    {
+      "cell_idx": 30,
+      "raw_markdown": "### CELL 11 ── Training Curves\n"
+    },
+    {
+      "cell_idx": 32,
+      "raw_markdown": "### CELL 12 ── Evaluate on Test Set\n"
+    },
+    {
+      "cell_idx": 34,
+      "raw_markdown": "### CELL 13 ── Confusion Matrix & Classification Report\n"
+    },
+    {
+      "cell_idx": 36,
+      "raw_markdown": "### CELL 14 ── Per-Class Accuracy Bar Chart\n"
+    },
+    {
+      "cell_idx": 38,
+      "raw_markdown": "### CELL 15 ── Sample Predictions Grid (Green = Correct, Red = Wrong)\n"
+    },
+    {
+      "cell_idx": 40,
+      "raw_markdown": "### Interpretation of Image-Based Classification Results\n\nIn evaluating the sample prediction grid and confusion matrix from a digital image processing perspective:\n\n1. **Visual Cues Leveraged by the Classifier:**\n   - **Chromatic Discoloration:** Chlorotic margins and dark necrotic lesions serve as primary chromatic markers.\n   - **Spatial Texture:** Powdery mildew, serpentine leaf miner tracks, and fungal spots provide distinct spatial frequency signatures.\n2. **Sources of Inter-Class Confusion:**\n   - **Morphological Similarity:** Early blight and leaf spots produce similar circular necrotic lesions.\n   - **Environmental Artifacts:** Harsh daylight glares and deep foliage shadows can distort color and contrast.\n   - **Complex Backgrounds:** Soil backgrounds and overlapping non-target vegetation introduce spurious edge responses.\n3. **Academic Clarification on Evaluation vs. DIP:**\n   - A **confusion matrix** evaluates categorical classification performance, not digital image processing.\n   - A **whole-image classification label** indicates the diagnosis of the overall image tile; it does **not** generate pixel-level lesion boundary masks.\n   - **Activation maps** show filter responses across spatial receptive fields; they do **not** constitute semantic segmentation masks."
+    },
+    {
+      "cell_idx": 41,
+      "raw_markdown": "### CELL 16 ── Save Final Model\n"
+    },
+    {
+      "cell_idx": 43,
+      "raw_markdown": "### Digital Image Processing Summary and Case Study Findings\n\n#### 1. Input Image Representation and Dimensions\nVGG16 processes standardized $224 \\times 224 \\times 3$ RGB digital images ($150,528$ pixel intensity values), decoded from JPEG files into numerical arrays.\n\n#### 2. Image Transformations Applied\n- **Geometric Transformations:** Horizontal spatial reflection, affine rotation ($\\pm 72^\\circ$), and zoom scaling ($\\pm 15\\%$) enforce rotational and scale invariance against camera positioning.\n- **Intensity Transformations:** Contrast adjustment ($\\pm 10\\%$); brightness transforms are excluded to maintain natural illumination balance.\n\n#### 3. Pixel Intensity Preprocessing\nInput tensors undergo channel permutation from RGB to BGR, followed by ImageNet channel mean subtraction ($[-103.939, -116.779, -123.68]$) via `vgg16.preprocess_input`.\n\n#### 4. Convolutional Feature Extraction\nVGG16 utilizes stacked $3 \\times 3$ spatial convolution filters across 5 hierarchical blocks, illustrating how small cascaded kernels enlarge spatial receptive fields while reducing parameter counts.\n\n#### 5. Relevance to Crop Disease Identification\nThe homogeneous architecture provides deep spatial abstraction capable of recognizing disease lesions across various stages of infection.\n\n#### 6. Limitations of the Image Processing Approach\n- **No Explicit Lesion Segmentation:** Categorizes whole image tiles rather than segmenting individual lesion perimeters.\n- **Downsampling:** Bilinear downsampling to $224 \\times 224$ can suppress very fine micro-lesions.\n- **Large Memory Footprint:** High parameter volume ($138\\text{M}$ parameters) requires smaller batch sizes (`BATCH_SIZE = 16`) and substantial memory compared to lightweight mobile architectures."
+    }
+  ]
+}
