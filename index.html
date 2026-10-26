@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriVision DIP | Precision Crop Pathology & Digital Image Processing Benchmark</title>
+  <meta name="description" content="Comprehensive Digital Image Processing (DIP) and Deep Learning benchmark for 22 crop diseases across Cashew, Cassava, Maize, and Tomato using ResNet50, EfficientNetB0, MobileNetV2, VGG16, and Custom CNN.">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       Sticky Navigation Header
+       ========================================================================== -->
+  <!-- ==========================================================================
+       Sticky Navigation Header with Reading Progress Bar & Enhanced Controls
+       ========================================================================== -->
+  <header class="site-header" id="siteHeader">
+    <!-- Top Reading Progress Indicator -->
+    <div class="nav-progress-bar" id="navProgressBar"></div>
+
+    <div class="container nav-container">
+      <a href="#overview" class="brand-logo" title="AgriVision DIP Homepage">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"></path>
+            <path d="M12 8c-2 2-2 6 0 8 2-2 2-6 0-8z"></path>
+            <path d="M7 12c2-2 6-2 8 0-2 2-6 2-8 0z"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">Agri<span>Vision</span></div>
+          <div class="brand-tagline">DIP & Neural Pathology</div>
+        </div>
+        <span class="brand-badge">22 Classes • 5 Models</span>
+      </a>
+
+      <!-- Desktop & Tablet Navigation Menu -->
+      <nav class="nav-menu" id="navMenu">
+        <ul class="nav-links">
+          <li>
+            <a href="#overview" class="nav-link active">
+              <span class="nav-icon">🏠</span>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li>
+            <a href="#diagnosis-studio" class="nav-link">
+              <span class="nav-icon">🔬</span>
+              <span>AI Diagnosis</span>
+              <span class="nav-hot-pill">Live</span>
+            </a>
+          </li>
+          <li>
+            <a href="#dip-lab" class="nav-link">
+              <span class="nav-icon">🧪</span>
+              <span>DIP Lab</span>
+            </a>
+          </li>
+          <li>
+            <a href="#benchmark" class="nav-link">
+              <span class="nav-icon">📊</span>
+              <span>Benchmark</span>
+            </a>
+          </li>
+          <li>
+            <a href="#deep-dives" class="nav-link">
+              <span class="nav-icon">🏛️</span>
+              <span>Models</span>
+            </a>
+          </li>
+          <li>
+            <a href="#atlas" class="nav-link">
+              <span class="nav-icon">🌿</span>
+              <span>Atlas</span>
+            </a>
+          </li>
+          <li>
+            <a href="#theory-docs" class="nav-link">
+              <span class="nav-icon">📖</span>
+              <span>Theory</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Right Action Controls -->
+      <div class="nav-actions">
+        <!-- Live System Status Badge -->
+        <div class="status-indicator" id="serverStatusBadge" title="Checking server status...">
+          <span class="status-dot" id="serverStatusDot"></span>
+          <span id="serverStatusText">Connecting...</span>
+        </div>
+
+        <!-- Quick Jump to AI Classifier -->
+        <a href="#diagnosis-studio" class="btn btn-sm btn-primary nav-cta-btn">
+          <span>⚡ Try Diagnosis</span>
+        </a>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="nav-mobile-toggle" id="navMobileToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       Hero Section
+       ========================================================================== -->
+  <section class="hero-section" id="overview">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-pill">
+          <span>🔬</span> Digital Image Processing & Multi-Crop Neural Pathology
+        </div>
+        <h1 class="hero-title">
+          Intelligent Crop Pathology via <br>
+          <span class="gradient-text">Digital Image Processing & Deep Learning</span>
+        </h1>
+        <p class="hero-subtitle">
+          An end-to-end research benchmark analyzing foliar disease symptoms across 22 classes in Cashew, Cassava, Maize, and Tomato. Exploring spatial filtering, color decomposition, and transfer learning architectures.
+        </p>
+        <div class="hero-actions">
+          <a href="#diagnosis-studio" class="btn btn-lg btn-primary">
+            <span>⚡ Launch AI Diagnosis Studio</span>
+          </a>
+          <a href="#dip-lab" class="btn btn-lg btn-outline">
+            <span>🧪 Explore Interactive DIP Lab</span>
+          </a>
+          <a href="#benchmark" class="btn btn-lg btn-outline">
+            <span>📊 Compare All 5 Models</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats Ribbon -->
+      <div class="stats-ribbon">
+        <div class="stat-item">
+          <div class="stat-number highlight-green">87.35%</div>
+          <div class="stat-label">Peak Test Accuracy</div>
+          <div class="stat-subtext">ResNet50 Champion</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">5.4 ms</div>
+          <div class="stat-label">Fastest Inference</div>
+          <div class="stat-subtext">MobileNetV2 Edge Speed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number highlight-green">22</div>
+          <div class="stat-label">Pathology Classes</div>
+          <div class="stat-subtext">4 Major Food Crops</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">25,284</div>
+          <div class="stat-label">Field Images</div>
+          <div class="stat-subtext">70/15/15 Stratified Split</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number highlight-green">5</div>
+          <div class="stat-label">Deep Architectures</div>
+          <div class="stat-subtext">ResNet, EfficientNet, MobileNet, VGG, Custom</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">54</div>
+          <div class="stat-label">Notebook Artifacts</div>
+          <div class="stat-subtext">Confusion Matrices, Curves, Plots</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Interactive Live Disease Diagnosis Studio
+       ========================================================================== -->
+  <section class="section-block" id="diagnosis-studio">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Interactive Clinical AI</span>
+        <h2 class="section-title">Live Crop Disease Diagnosis Studio</h2>
+        <p class="section-description">
+          Select a verified field test sample or upload a leaf photograph. Evaluate using any trained deep model or trigger multi-model consensus prediction in real time.
+        </p>
+      </div>
+
+      <div class="diagnosis-layout">
+        <!-- Left: Upload & Picker Panel -->
+        <div class="upload-panel">
+          <!-- Dropzone -->
+          <div class="dropzone-area" id="dropzoneArea">
+            <div id="dropzoneContent">
+              <div class="dropzone-icon">🍃</div>
+              <div class="dropzone-title">Drag & drop leaf photo here</div>
+              <div class="dropzone-hint">or click to browse files (JPEG, PNG, WEBP)</div>
+            </div>
+
+            <div class="preview-container" id="previewContainer">
+              <img id="previewImg" class="preview-img" alt="Leaf Preview" />
+              <button class="preview-remove-btn" id="removeImgBtn" title="Remove image">&times;</button>
+            </div>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;" />
+          </div>
+
+          <!-- Quick Sample Picker -->
+          <div class="samples-card">
+            <div class="samples-header">
+              <h4>Quick Test Samples (22 Ground-Truth Classes):</h4>
+            </div>
+            <div class="crop-filter-chips sample-crop-chips">
+              <button class="chip-btn active" data-crop="all">All Crops (22)</button>
+              <button class="chip-btn" data-crop="cashew">Cashew (5)</button>
+              <button class="chip-btn" data-crop="cassava">Cassava (5)</button>
+              <button class="chip-btn" data-crop="maize">Maize (7)</button>
+              <button class="chip-btn" data-crop="tomato">Tomato (5)</button>
+            </div>
+            <div class="sample-grid" id="sampleGrid">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Model Selector Toolbar -->
+          <div class="model-selector-bar">
+            <label for="modelSelect">Select Evaluator:</label>
+            <select id="modelSelect" class="model-select">
+              <option value="resnet50" selected>ResNet50 (87.35% Acc - Top Accuracy)</option>
+              <option value="efficientnet">EfficientNetB0 (85.77% Acc - Compact)</option>
+              <option value="mobilenet">MobileNetV2 (83.72% Acc - 5.4ms Edge Speed)</option>
+              <option value="vgg16">VGG16 (77.13% Acc - Deep Stack)</option>
+              <option value="custom_cnn">Custom CNN (44.35% Acc - Scratch Baseline)</option>
+              <option value="all">⚡ Parallel Multi-Model Consensus (All 5)</option>
+            </select>
+            <button class="btn btn-primary" id="runDiagnosisBtn">
+              <span>Run AI Diagnosis</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Results Panel -->
+        <div class="result-panel">
+          <div class="result-placeholder" id="resultPlaceholder">
+            <div class="result-placeholder-icon">🔬</div>
+            <h3>No Leaf Image Loaded</h3>
+            <p>Select a sample leaf or upload an image to view real-time disease diagnosis, probability breakdown, and treatment protocols.</p>
+          </div>
+
+          <div id="diagnosisResultContent" style="display: none; flex-direction: column; gap: 1.5rem;">
+            <!-- Primary Diagnosis Card -->
+            <div class="diagnosis-header-card">
+              <div class="diagnosis-top-row">
+                <span class="badge badge-green" id="resultStatusBadge">Confirmed Diagnosis</span>
+                <div class="confidence-meter">
+                  <span class="confidence-val" id="resultConfidenceVal">99.2%</span>
+                  <span class="confidence-label">Confidence</span>
+                </div>
+              </div>
+              <h3 class="disease-name" id="resultDiseaseName">Cashew red rust</h3>
+              <div class="diagnosis-meta">
+                <span class="meta-badge" id="resultCropBadge">Crop: Cashew</span>
+                <span class="meta-badge" id="resultSeverityBadge">Severity: Moderate</span>
+                <span class="meta-badge" id="resultModelBadge">Evaluator: RESNET50</span>
+                <span class="meta-badge" id="resultLatencyBadge">Latency: 26.6 ms</span>
+              </div>
+            </div>
+
+            <!-- Details List -->
+            <div class="diagnosis-details-list">
+              <div class="detail-block">
+                <div class="detail-block-title">🦠 Causative Pathogen / Agent</div>
+                <div class="detail-block-text" id="resultPathogen">Loading...</div>
+              </div>
+
+              <div class="detail-block">
+                <div class="detail-block-title">🔍 Visual Symptoms & Morphology</div>
+                <div class="detail-block-text" id="resultSymptoms">Loading...</div>
+              </div>
+
+              <div class="detail-block">
+                <div class="detail-block-title">📐 Digital Image Processing Characteristics</div>
+                <div class="detail-block-text" id="resultDipAnalysis">Loading...</div>
+              </div>
+
+              <div class="detail-block">
+                <div class="detail-block-title">💊 Agronomic Management & Chemical Protocol</div>
+                <div class="detail-block-text" id="resultManagement">Loading...</div>
+              </div>
+            </div>
+
+            <!-- Probability Distribution Bars -->
+            <div>
+              <h4 style="font-size:0.95rem; margin-bottom:0.75rem; font-weight:700;">Top Predicted Classes:</h4>
+              <div class="prob-bars-container" id="probBarsContainer">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- Multi-Model Consensus -->
+            <div class="consensus-card">
+              <div class="consensus-title">
+                <span>Multi-Model Consensus Overview</span>
+                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:normal;">Cross-Architecture Verification</span>
+              </div>
+              <div class="consensus-grid" id="consensusGrid">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Interactive Digital Image Processing (DIP) Lab / Studio
+       ========================================================================== -->
+  <section class="section-block" id="dip-lab">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Interactive Computer Vision</span>
+        <h2 class="section-title">Digital Image Processing Pipeline Studio</h2>
+        <p class="section-description">
+          Test the fundamental image transformations that prepare foliar imagery for deep feature extraction. Observe pixel matrix representations, luminance mapping, and edge derivatives live in your browser.
+        </p>
+      </div>
+
+      <div class="dip-studio-container">
+        <!-- Controls Sidebar -->
+        <div class="dip-controls-card">
+          <h4 style="font-size:1.05rem; font-weight:700;">DIP Pipeline Stages:</h4>
+          <div class="dip-step-select">
+            <button class="dip-step-btn active" data-filter="original">
+              <span class="dip-step-num">1</span>
+              <span>Raw RGB Tensor Acquisition</span>
+            </button>
+            <button class="dip-step-btn" data-filter="grayscale">
+              <span class="dip-step-num">2</span>
+              <span>Luminance (Grayscale) Mapping</span>
+            </button>
+            <button class="dip-step-btn" data-filter="contrast">
+              <span class="dip-step-num">3</span>
+              <span>Histogram Contrast Stretching</span>
+            </button>
+            <button class="dip-step-btn" data-filter="sobel">
+              <span class="dip-step-num">4</span>
+              <span>Sobel Edge Gradient Magnitude</span>
+            </button>
+            <button class="dip-step-btn" data-filter="laplacian">
+              <span class="dip-step-num">5</span>
+              <span>Laplacian 2nd-Derivative Filter</span>
+            </button>
+            <button class="dip-step-btn" data-filter="chlorophyll">
+              <span class="dip-step-num">6</span>
+              <span>Excess Green (ExG) Chromatic Index</span>
+            </button>
+            <button class="dip-step-btn" data-filter="threshold">
+              <span class="dip-step-num">7</span>
+              <span>Morphological Lesion Threshold</span>
+            </button>
+          </div>
+
+          <div style="border-top:1px solid var(--border-color); padding-top:1.25rem; display:flex; flex-direction:column; gap:1.25rem;">
+            <h4 style="font-size:0.95rem; font-weight:700;">Spatial & Radiometric Tuning:</h4>
+
+            <div class="slider-group">
+              <div class="slider-label-row">
+                <span>Brightness Scale:</span>
+                <span id="dipBrightnessVal" style="font-family:var(--font-mono);">100%</span>
+              </div>
+              <input type="range" id="dipBrightness" class="slider-input" min="30" max="200" value="100">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-label-row">
+                <span>Contrast Stretch:</span>
+                <span id="dipContrastVal" style="font-family:var(--font-mono);">100%</span>
+              </div>
+              <input type="range" id="dipContrast" class="slider-input" min="50" max="250" value="100">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-label-row">
+                <span>Binary Threshold Cutoff:</span>
+                <span id="dipThresholdVal" style="font-family:var(--font-mono);">128</span>
+              </div>
+              <input type="range" id="dipThreshold" class="slider-input" min="10" max="245" value="128">
+            </div>
+
+            <!-- RGB Real-Time Histogram -->
+            <div style="background:var(--bg-subtle); padding:0.85rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+              <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.4rem;">
+                RGB Color Intensity Histogram:
+              </div>
+              <canvas id="histCanvas" style="width:100%; height:70px; display:block; border-radius:4px;"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Viewports & Theoretical Formula -->
+        <div class="dip-viewports-wrapper">
+          <div class="dip-canvases-grid">
+            <!-- Original Input Canvas -->
+            <div class="dip-canvas-card">
+              <div class="dip-canvas-header">
+                <h4>Original Acquisition ($224 \times 224 \times 3$)</h4>
+                <span class="badge badge-green">Input Space</span>
+              </div>
+              <div class="canvas-container">
+                <canvas id="origDipCanvas"></canvas>
+              </div>
+              <div class="canvas-info-footer">
+                <span>Resolution: 224 &times; 224</span>
+                <span>Dynamic Range: [0, 255] uint8</span>
+              </div>
+            </div>
+
+            <!-- Processed Output Canvas -->
+            <div class="dip-canvas-card">
+              <div class="dip-canvas-header">
+                <h4>Processed Feature Space</h4>
+                <span class="badge badge-blue" id="procFilterBadge">Transformed</span>
+              </div>
+              <div class="canvas-container">
+                <canvas id="procDipCanvas"></canvas>
+              </div>
+              <div class="canvas-info-footer">
+                <span>Spatial Operators Applied</span>
+                <span>Real-Time Matrix Filtering</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Theoretical Explanation Card -->
+          <div class="dip-explanation-card">
+            <h4 id="dipExplTitle">Step 1: Raw Image Acquisition & Spatial Matrix Representation</h4>
+            <div class="dip-formula-box" id="dipExplFormula">
+              f(x, y) = [R(x, y), G(x, y), B(x, y)]^T \in [0, 255]^{224 \times 224 \times 3}
+            </div>
+            <p id="dipExplText" class="detail-block-text">
+              The digital image is acquired as a discrete 3D spatial tensor. Each spatial coordinate (x, y) contains an 8-bit quantized triplet representing Red, Green, and Blue spectral photon intensity captured by field cameras.
+            </p>
+          </div>
+
+          <!-- Embedded Real Degradation Experiment from Comparison Notebook -->
+          <div class="card" style="padding:1.5rem;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
+              <h4 style="font-size:1.05rem; font-weight:700;">Empirical Study: Degradation Robustness Experiment</h4>
+              <span class="badge badge-purple">Notebook Artifact</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1rem;">
+              Actual experiment from <code>Comparison.ipynb</code> evaluating model resilience across four image quality conditions: (1) Baseline Original, (2) Additive Gaussian Noise ($\sigma=25$), (3) Low Illumination / Shadow, and (4) Gaussian Blur ($\sigma=3.0$).
+            </p>
+            <img src="web_assets/Comparison_cell32_out0.png" class="notebook-plot-preview" alt="Degradation Experiment" data-title="Image Quality Degradation Analysis (Baseline, Noise, Illumination, Blur)" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Model Comparison & Benchmark Dashboard
+       ========================================================================== */
+  -->
+  <section class="section-block" id="benchmark">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Empirical Results</span>
+        <h2 class="section-title">Comparative Model Benchmark Dashboard</h2>
+        <p class="section-description">
+          Evaluation of all 5 classifiers on the identical 3,795 test images across Accuracy, Precision, Recall, F1-Score, Parameter Volume, and Hardware Inference Latency.
+        </p>
+      </div>
+
+      <!-- Main Benchmark Table -->
+      <div class="benchmark-table-wrapper">
+        <table class="benchmark-table">
+          <thead>
+            <tr>
+              <th>Model Architecture</th>
+              <th>Accuracy (%)</th>
+              <th>Precision (%)</th>
+              <th>Recall (%)</th>
+              <th>F1-Score (%)</th>
+              <th>Inference Latency</th>
+              <th>Parameters</th>
+              <th>Disk Footprint</th>
+              <th>Architectural Mechanism</th>
+            </tr>
+          </thead>
+          <tbody id="benchmarkTableBody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Comparison Charts 2-Column Grid -->
+      <div class="charts-grid-2col">
+        <!-- Chart 1: Interactive Multi-Metric Radar Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>Multi-Dimensional Trade-off Profile</h3>
+            <span class="badge badge-green">Interactive Canvas</span>
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
+            Radar comparison comparing top candidates across Accuracy, Precision, Recall, F1, and Inference Speed:
+          </p>
+          <div class="chart-canvas-wrapper">
+            <canvas id="radarChartCanvas"></canvas>
+          </div>
+          <div style="display:flex; justify-content:center; gap:1.5rem; margin-top:1rem; font-size:0.82rem; font-weight:600;">
+            <span style="color:#e11d48;">■ ResNet50 (Accuracy Lead)</span>
+            <span style="color:#059669;">■ EfficientNetB0 (Balanced)</span>
+            <span style="color:#2563eb;">■ MobileNetV2 (Speed Lead)</span>
+          </div>
+        </div>
+
+        <!-- Chart 2: Accuracy vs Inference Speed Pareto Frontier -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>Accuracy vs. Inference Speed Pareto Frontier</h3>
+            <span class="badge badge-blue">Notebook Artifact</span>
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
+            Real scatter plot extracted from <code>Comparison.ipynb</code> highlighting the efficiency sweet spot:
+          </p>
+          <div class="chart-canvas-wrapper">
+            <img src="web_assets/Comparison_cell25_out0.png" class="notebook-plot-preview" alt="Accuracy vs Speed Scatter Plot" data-title="Accuracy vs Inference Speed Trade-off" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Confusion Matrices & F1 Heatmap Explorer -->
+      <div class="card" style="padding:2rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
+          <div>
+            <h3 style="font-size:1.35rem; font-weight:800; margin-bottom:0.25rem;">Confusion Matrix & Error Surface Viewer</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin:0;">
+              Inspect diagonal true positives and inter-class confusion patterns across the 22 pathology classes.
+            </p>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.6rem;">
+            <label for="cmModelSelect" style="font-size:0.85rem; font-weight:700;">View Artifact:</label>
+            <select id="cmModelSelect" class="model-select" style="min-width:240px;">
+              <option value="all" selected>All 5 Models Side-by-Side (Normalized)</option>
+              <option value="f1_heatmap">Per-Class F1-Score Heatmap (Models × Classes)</option>
+              <option value="resnet50">ResNet50 Confusion Matrix (87.35% Acc)</option>
+              <option value="efficientnet">EfficientNetB0 Confusion Matrix (85.77% Acc)</option>
+              <option value="mobilenet">MobileNetV2 Confusion Matrix (83.72% Acc)</option>
+              <option value="vgg16">VGG16 Confusion Matrix (77.13% Acc)</option>
+              <option value="custom_cnn">Custom CNN Confusion Matrix (44.35% Acc)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="text-align:center; background:#f8fafc; border-radius:var(--radius-lg); padding:1rem; border:1px solid var(--border-color);">
+          <img id="cmDisplayImg" src="web_assets/Comparison_cell21_out0.png" class="notebook-plot-preview" alt="Confusion Matrix View" data-title="Normalized Confusion Matrix" style="max-height:540px; margin:0 auto;" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Model Deep Dives (5 Comprehensive Showcases)
+       ========================================================================== -->
+  <section class="section-block" id="deep-dives">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Architectural Anatomy</span>
+        <h2 class="section-title">Deep-Dive Model Showcases</h2>
+        <p class="section-description">
+          Examine the architectural blueprints, digital image processing feature extraction mechanisms, training convergence curves, and empirical validation results for each classifier.
+        </p>
+      </div>
+
+      <!-- Model Tabs Navigation -->
+      <div class="model-tabs-nav">
+        <button class="model-tab-btn active" data-target="deepdive-resnet">
+          <span>🏆 ResNet50 (87.35%)</span>
+        </button>
+        <button class="model-tab-btn" data-target="deepdive-efficientnet">
+          <span>⚡ EfficientNetB0 (85.77%)</span>
+        </button>
+        <button class="model-tab-btn" data-target="deepdive-mobilenet">
+          <span>📱 MobileNetV2 (83.72%)</span>
+        </button>
+        <button class="model-tab-btn" data-target="deepdive-vgg">
+          <span>🏛️ VGG16 (77.13%)</span>
+        </button>
+        <button class="model-tab-btn" data-target="deepdive-custom">
+          <span>⚙️ Custom CNN (44.35%)</span>
+        </button>
+      </div>
+
+      <!-- 1. RESNET50 SHOWCASE -->
+      <div class="deepdive-content active" id="deepdive-resnet">
+        <div class="deepdive-header-grid">
+          <div class="deepdive-headline-card">
+            <span class="badge badge-red" style="margin-bottom:0.75rem;">Overall Benchmark Winner</span>
+            <h3>ResNet50: Deep Residual Feature Extraction</h3>
+            <p class="deepdive-tagline">
+              50-layer deep bottleneck residual architecture with identity skip connections $H(x) = F(x) + x$, solving vanishing gradients during fine-grained foliar disease discrimination.
+            </p>
+            <div class="deepdive-specs-grid">
+              <div class="spec-tile">
+                <div class="spec-tile-label">Test Accuracy</div>
+                <div class="spec-tile-val" style="color:var(--color-resnet);">87.35%</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">F1-Score</div>
+                <div class="spec-tile-val">87.05%</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Inference Latency</div>
+                <div class="spec-tile-val">26.6 ms</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Parameters</div>
+                <div class="spec-tile-val">25.6M</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Input Size</div>
+                <div class="spec-tile-val">224 &times; 224 &times; 3</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Disk Footprint</div>
+                <div class="spec-tile-val">179 MB</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ResNet50 Pipeline Card -->
+          <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
+            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:0.75rem;">ResNet DIP Preprocessing</h4>
+            <div style="font-size:0.85rem; line-height:1.6; color:var(--text-body);">
+              <p><strong>1. Channel Permutation:</strong> Standard RGB input is transposed to <strong>BGR</strong> order to match Caffe baseline specifications.</p>
+              <p><strong>2. Radiometric Zero-Centering:</strong> Subtracts ImageNet mean vector: $B' = B - 103.939, G' = G - 116.779, R' = R - 123.68$.</p>
+              <p><strong>3. Two-Phase Optimization:</strong> Phase 1 trains top classification head with frozen backbone ($10^{-4}$ LR); Phase 2 unfreezes top 20 residual layers ($10^{-5}$ LR).</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ResNet Plots Gallery -->
+        <h4 style="font-size:1.2rem; font-weight:800; margin-bottom:1.25rem;">Empirical Notebook Artifacts & Training Convergence:</h4>
+        <div class="deepdive-plots-gallery">
+          <div class="plot-item-card">
+            <h4>1. Two-Phase Training & Validation Curves</h4>
+            <img src="web_assets/ResNet50_cell31_out0.png" alt="ResNet50 Training Curves" data-title="ResNet50 Training & Validation Curves (Phase 1 & 2)" />
+            <div class="plot-caption">Observe smooth loss reduction and accuracy surge during Phase 2 layer unfreezing.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>2. Pretrained Activation Feature Maps (conv1_conv)</h4>
+            <img src="web_assets/ResNet50_cell24_out0.png" alt="ResNet50 First Conv Layer Feature Maps" data-title="ResNet50 Activation Maps: First Conv Layer Filter Responses" />
+            <div class="plot-caption">Visualizing the 64 spatial filter activations isolating edges, specular reflections, and vein bifurcations.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>3. Per-Class Accuracy Distribution</h4>
+            <img src="web_assets/ResNet50_cell37_out0.png" alt="ResNet50 Per-Class Accuracy Bar Chart" data-title="ResNet50 Per-Class Accuracy across 22 Classes" />
+            <div class="plot-caption">Cashew gumosis and tomato healthy achieve near 100% precision.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>4. Sample Field Predictions Grid</h4>
+            <img src="web_assets/ResNet50_cell39_out0.png" alt="ResNet50 Sample Predictions Grid" data-title="ResNet50 Sample Predictions Grid (Green = Correct, Red = Wrong)" />
+            <div class="plot-caption">Representative test inference showcasing robust ground-truth alignment.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. EFFICIENTNETB0 SHOWCASE -->
+      <div class="deepdive-content" id="deepdive-efficientnet">
+        <div class="deepdive-header-grid">
+          <div class="deepdive-headline-card">
+            <span class="badge badge-green" style="margin-bottom:0.75rem;">Best Accuracy-to-Size Ratio</span>
+            <h3>EfficientNetB0: Compound Scaling & SE Attention</h3>
+            <p class="deepdive-tagline">
+              Leverages compound scaling of network depth ($d$), width ($w$), and spatial resolution ($r$) coupled with Squeeze-and-Excitation (SE) channel attention blocks that amplify chlorotic and necrotic patterns.
+            </p>
+            <div class="deepdive-specs-grid">
+              <div class="spec-tile">
+                <div class="spec-tile-label">Test Accuracy</div>
+                <div class="spec-tile-val" style="color:var(--color-efficientnet);">85.77%</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">F1-Score</div>
+                <div class="spec-tile-val">85.28%</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Inference Latency</div>
+                <div class="spec-tile-val">9.8 ms</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Parameters</div>
+                <div class="spec-tile-val">5.3M</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Disk Footprint</div>
+                <div class="spec-tile-val">21.1 MB</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Input Size</div>
+                <div class="spec-tile-val">224 &times; 224 &times; 3</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- EfficientNet Pipeline Card -->
+          <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
+            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:0.75rem;">Internal Built-in Preprocessing</h4>
+            <div style="font-size:0.85rem; line-height:1.6; color:var(--text-body);">
+              <p><strong>1. Raw Normalization:</strong> Unlike other architectures, EfficientNet incorporates normalization inside its computational graph; inputs are kept on native $[0, 255]$ scale to avoid double normalization.</p>
+              <p><strong>2. Squeeze-and-Excitation:</strong> Channel recalibration dynamically scales feature channels: $s = \sigma(W_2 \cdot \text{ReLU}(W_1 \cdot z))$.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- EfficientNet Plots Gallery -->
+        <h4 style="font-size:1.2rem; font-weight:800; margin-bottom:1.25rem;">Empirical Notebook Artifacts & Training Convergence:</h4>
+        <div class="deepdive-plots-gallery">
+          <div class="plot-item-card">
+            <h4>1. Training & Fine-Tuning Convergence</h4>
+            <img src="web_assets/EfficientNet_cell29_out0.png" alt="EfficientNetB0 Training Curves" data-title="EfficientNetB0 Training Curves" />
+            <div class="plot-caption">Stable validation trajectory with 85.77% test convergence.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>2. Normalized Confusion Matrix Heatmap</h4>
+            <img src="web_assets/EfficientNet_cell33_out0.png" alt="EfficientNetB0 Confusion Matrix" data-title="EfficientNetB0 Confusion Matrix Heatmap" />
+            <div class="plot-caption">Shows strong diagonal concentration across all 22 disease classes.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>3. Per-Class Accuracy Breakdown</h4>
+            <img src="web_assets/EfficientNet_cell35_out0.png" alt="EfficientNetB0 Per-Class Accuracy" data-title="EfficientNetB0 Per-Class Accuracy" />
+            <div class="plot-caption">18 of 22 classes exceed the 80% accuracy threshold.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>4. Sample Predictions Grid</h4>
+            <img src="web_assets/EfficientNet_cell37_out0.png" alt="EfficientNetB0 Sample Predictions" data-title="EfficientNetB0 Sample Predictions" />
+            <div class="plot-caption">Correctly classifies multi-crop infections with high confidence.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. MOBILENETV2 SHOWCASE -->
+      <div class="deepdive-content" id="deepdive-mobilenet">
+        <div class="deepdive-header-grid">
+          <div class="deepdive-headline-card">
+            <span class="badge badge-blue" style="margin-bottom:0.75rem;">Edge Deployment & Speed Champion</span>
+            <h3>MobileNetV2: Depthwise Separable Convolutions</h3>
+            <p class="deepdive-tagline">
+              Factorizes standard 2D convolution into $3\times 3$ depthwise spatial filtering and $1\times 1$ pointwise channel linear combinations. Achieves an 8-9x reduction in computation, delivering blistering 5.4ms latency.
+            </p>
+            <div class="deepdive-specs-grid">
+              <div class="spec-tile">
+                <div class="spec-tile-label">Test Accuracy</div>
+                <div class="spec-tile-val" style="color:var(--color-mobilenet);">83.72%</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">F1-Score</div>
+                <div class="spec-tile-val">83.38%</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Inference Latency</div>
+                <div class="spec-tile-val" style="color:var(--color-mobilenet);">5.415 ms</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Parameters</div>
+                <div class="spec-tile-val">3.5M</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Disk Footprint</div>
+                <div class="spec-tile-val">25.9 MB</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Mobile Fit</div>
+                <div class="spec-tile-val">Ideal for Field Drones</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MobileNet Pipeline Card -->
+          <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
+            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:0.75rem;">Mobile DIP Preprocessing</h4>
+            <div style="font-size:0.85rem; line-height:1.6; color:var(--text-body);">
+              <p><strong>1. Symmetrical Normalization:</strong> Pixel intensities are scaled to $[-1.0, +1.0]$ via $X' = (X / 127.5) - 1.0$.</p>
+              <p><strong>2. Inverted Residuals & Linear Bottlenecks:</strong> Preserves manifold structure by avoiding non-linear activations in low-dimensional projection layers.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- MobileNet Plots Gallery -->
+        <h4 style="font-size:1.2rem; font-weight:800; margin-bottom:1.25rem;">Empirical Notebook Artifacts & Training Convergence:</h4>
+        <div class="deepdive-plots-gallery">
+          <div class="plot-item-card">
+            <h4>1. Training & Fine-Tuning Curves</h4>
+            <img src="web_assets/MobileNet_cell29_out0.png" alt="MobileNetV2 Training Curves" data-title="MobileNetV2 Training Curves" />
+            <div class="plot-caption">Fast convergence reaching 83.72% accuracy with rapid training cycles.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>2. Confusion Matrix Heatmap</h4>
+            <img src="web_assets/MobileNet_cell33_out0.png" alt="MobileNetV2 Confusion Matrix" data-title="MobileNetV2 Confusion Matrix" />
+            <div class="plot-caption">High sensitivity on Cashew, Cassava, and Maize pathologies.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>3. Per-Class Accuracy Bar Chart</h4>
+            <img src="web_assets/MobileNet_cell35_out0.png" alt="MobileNetV2 Per-Class Accuracy" data-title="MobileNetV2 Per-Class Accuracy" />
+            <div class="plot-caption">Maintains competitive per-class fidelity despite lightweight parameter footprint.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>4. Sample Predictions Grid</h4>
+            <img src="web_assets/MobileNet_cell37_out0.png" alt="MobileNetV2 Sample Predictions" data-title="MobileNetV2 Sample Predictions" />
+            <div class="plot-caption">Visual verification of field sample classifications.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. VGG16 SHOWCASE -->
+      <div class="deepdive-content" id="deepdive-vgg">
+        <div class="deepdive-header-grid">
+          <div class="deepdive-headline-card">
+            <span class="badge badge-purple" style="margin-bottom:0.75rem;">Classical Deep Baseline</span>
+            <h3>VGG16: Homogeneous Stacked $3\times 3$ Filtering</h3>
+            <p class="deepdive-tagline">
+              Foundational deep learning architecture illustrating receptive field enlargement via cascaded small convolutional filters. Heavy memory footprint and parameter overhead.
+            </p>
+            <div class="deepdive-specs-grid">
+              <div class="spec-tile">
+                <div class="spec-tile-label">Test Accuracy</div>
+                <div class="spec-tile-val" style="color:var(--color-vgg);">77.13%</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">F1-Score</div>
+                <div class="spec-tile-val">73.61%</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Inference Latency</div>
+                <div class="spec-tile-val">63.8 ms</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Parameters</div>
+                <div class="spec-tile-val">138M</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Disk Footprint</div>
+                <div class="spec-tile-val">214 MB</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Batch Size</div>
+                <div class="spec-tile-val">16 (VRAM Constrained)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VGG16 Pipeline Card -->
+          <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
+            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:0.75rem;">Receptive Field Dynamics</h4>
+            <div style="font-size:0.85rem; line-height:1.6; color:var(--text-body);">
+              <p><strong>1. Small Filter Stacking:</strong> Two cascaded $3\times 3$ layers produce an effective $5\times 5$ receptive field; three produce a $7\times 7$ field, saving 45% parameter volume compared to direct $7\times 7$ filters.</p>
+              <p><strong>2. Memory Bottleneck:</strong> The unpooled Flatten layer yields dense spatial vectors resulting in large weights and high latency.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- VGG16 Plots Gallery -->
+        <h4 style="font-size:1.2rem; font-weight:800; margin-bottom:1.25rem;">Empirical Notebook Artifacts & Training Convergence:</h4>
+        <div class="deepdive-plots-gallery">
+          <div class="plot-item-card">
+            <h4>1. VGG16 Training & Validation Curves</h4>
+            <img src="web_assets/VGG16_cell31_out0.png" alt="VGG16 Training Curves" data-title="VGG16 Training Curves" />
+            <div class="plot-caption">Block 5 fine-tuning trajectory across 20 epochs.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>2. Normalized Confusion Matrix Heatmap</h4>
+            <img src="web_assets/VGG16_cell35_out0.png" alt="VGG16 Confusion Matrix" data-title="VGG16 Confusion Matrix" />
+            <div class="plot-caption">Confusion matrix displaying misclassification on subtle tomato leaf blights.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>3. Per-Class Accuracy Distribution</h4>
+            <img src="web_assets/VGG16_cell37_out0.png" alt="VGG16 Per-Class Accuracy" data-title="VGG16 Per-Class Accuracy" />
+            <div class="plot-caption">Bar chart detailing class-by-class performance.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>4. Sample Predictions Grid</h4>
+            <img src="web_assets/VGG16_cell39_out0.png" alt="VGG16 Sample Predictions" data-title="VGG16 Sample Predictions" />
+            <div class="plot-caption">Ground-truth validation on test leaf set.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. CUSTOM CNN SHOWCASE -->
+      <div class="deepdive-content" id="deepdive-custom">
+        <div class="deepdive-header-grid">
+          <div class="deepdive-headline-card">
+            <span class="badge badge-orange" style="margin-bottom:0.75rem;">From-Scratch Baseline Benchmark</span>
+            <h3>Custom CNN: Built from Scratch</h3>
+            <p class="deepdive-tagline">
+              A 4-stage convolutional architecture (32, 64, 128, 256 filters) trained completely from scratch without ImageNet transfer learning weights, demonstrating why visual priors are critical for fine-grained multi-crop diagnosis.
+            </p>
+            <div class="deepdive-specs-grid">
+              <div class="spec-tile">
+                <div class="spec-tile-label">Test Accuracy</div>
+                <div class="spec-tile-val" style="color:var(--color-custom);">44.35%</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">F1-Score</div>
+                <div class="spec-tile-val">41.56%</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Inference Latency</div>
+                <div class="spec-tile-val">1.890 ms</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Parameters</div>
+                <div class="spec-tile-val">1.8M</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Resolution</div>
+                <div class="spec-tile-val">128 &times; 128 &times; 3</div>
+              </div>
+              <div class="spec-tile">
+                <div class="spec-tile-label">Disk Footprint</div>
+                <div class="spec-tile-val">20.6 MB</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Custom CNN Pipeline Card -->
+          <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
+            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:0.75rem;">Scratch Training Insights</h4>
+            <div style="font-size:0.85rem; line-height:1.6; color:var(--text-body);">
+              <p><strong>1. Reduced Spatial Resolution:</strong> Operating at $128\times 128$ discards high-frequency details essential for micro-symptom detection (e.g. leaf miner trails).</p>
+              <p><strong>2. Need for Pretrained Priors:</strong> Learning low-level Gabor-like filters from small agricultural sets is challenging compared to transfer learning from ImageNet.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom CNN Plots Gallery -->
+        <h4 style="font-size:1.2rem; font-weight:800; margin-bottom:1.25rem;">Empirical Notebook Artifacts & Training Convergence:</h4>
+        <div class="deepdive-plots-gallery">
+          <div class="plot-item-card">
+            <h4>1. Classical DIP Spatial Filtering Demonstration</h4>
+            <img src="web_assets/CustomCNN_cell26_out0.png" alt="Classical DIP vs CNN" data-title="Classical DIP Spatial Filtering (RGB, Gray, Gaussian Blur, Sobel Magnitude, Laplacian)" />
+            <div class="plot-caption">Notebook comparison between classical fixed DIP filters vs learned convolutional kernels.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>2. Scratch Training Curves</h4>
+            <img src="web_assets/CustomCNN_cell31_out0.png" alt="Custom CNN Training Curves" data-title="Custom CNN Training Curves" />
+            <div class="plot-caption">Convergence plateauing at 44.35% test accuracy.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>3. Confusion Matrix Heatmap</h4>
+            <img src="web_assets/CustomCNN_cell37_out0.png" alt="Custom CNN Confusion Matrix" data-title="Custom CNN Confusion Matrix Heatmap" />
+            <div class="plot-caption">Highlights inter-class confusion across similar fungal leaf spot morphologies.</div>
+          </div>
+
+          <div class="plot-item-card">
+            <h4>4. Sample Predictions Grid</h4>
+            <img src="web_assets/CustomCNN_cell41_out0.png" alt="Custom CNN Sample Predictions" data-title="Custom CNN Sample Predictions (Green = Correct, Red = Wrong)" />
+            <div class="plot-caption">Comparison of correct vs misclassified samples.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Dataset & Class Atlas (22 Classes across 4 Crops)
+       ========================================================================== -->
+  <section class="section-block" id="atlas">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Foliar Pathology Encyclopedia</span>
+        <h2 class="section-title">22-Class Pathology Atlas</h2>
+        <p class="section-description">
+          Browse all 22 crop disease and healthy classes across Cashew, Cassava, Maize, and Tomato. Inspect diagnostic symptoms, biological agents, split counts, and launch 1-click test inferences.
+        </p>
+      </div>
+
+      <!-- Filter Toolbar -->
+      <div class="atlas-filter-toolbar">
+        <div class="crop-tabs-group">
+          <button class="chip-btn active" data-crop="all">All Classes (22)</button>
+          <button class="chip-btn" data-crop="cashew">Cashew (5)</button>
+          <button class="chip-btn" data-crop="cassava">Cassava (5)</button>
+          <button class="chip-btn" data-crop="maize">Maize (7)</button>
+          <button class="chip-btn" data-crop="tomato">Tomato (5)</button>
+        </div>
+
+        <div class="atlas-search-box">
+          <span class="atlas-search-icon">🔍</span>
+          <input type="text" id="atlasSearchInput" class="atlas-search-input" placeholder="Search disease, symptom, pathogen..." />
+        </div>
+      </div>
+
+      <!-- Atlas Grid -->
+      <div class="atlas-grid" id="atlasGrid">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Complete Notebook Theory & Mathematical Foundations
+       ========================================================================== -->
+  <section class="section-block" id="theory-docs">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Academic Foundations</span>
+        <h2 class="section-title">Digital Image Processing & Theory Guide</h2>
+        <p class="section-description">
+          Complete explanations transcribed from all 6 project notebooks, documenting digital image representation, spatial resizing, geometric transformations, and convolutional filtering.
+        </p>
+      </div>
+
+      <div class="docs-layout">
+        <!-- Table of Contents Sidebar -->
+        <aside class="docs-sidebar">
+          <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:0.85rem;">Theory Curriculum:</h4>
+          <ul class="docs-nav-list">
+            <li><a href="#theory-representation" class="docs-nav-link active">1. Digital Image Representation</a></li>
+            <li><a href="#theory-resizing" class="docs-nav-link">2. Spatial Resizing & Interpolation</a></li>
+            <li><a href="#theory-augmentations" class="docs-nav-link">3. Geometric & Radiometric Augmentation</a></li>
+            <li><a href="#theory-convolution" class="docs-nav-link">4. 2D Spatial Convolution & Receptive Fields</a></li>
+            <li><a href="#theory-architectures" class="docs-nav-link">5. Transfer Learning vs Handcrafted DIP</a></li>
+            <li><a href="#theory-pipeline-table" class="docs-nav-link">6. Cross-Pipeline Dimension Matrix</a></li>
+            <li><a href="#theory-degradation" class="docs-nav-link">7. Quality Degradation Experiment</a></li>
+          </ul>
+        </aside>
+
+        <!-- Main Articles -->
+        <main class="docs-main-content">
+          <!-- Article 1 -->
+          <article class="docs-article-section" id="theory-representation">
+            <h3>1. Digital Image Representation & Agricultural Significance</h3>
+            <p>
+              In digital image processing (DIP) applied to precision agriculture, crop pest and disease detection operates directly on discrete pixel arrays. A digital color image is mathematically formulated as a two-dimensional spatial intensity function with three discrete spectral channels:
+            </p>
+            <div class="dip-formula-box">
+              f(x, y) = \begin{bmatrix} R(x, y) \\ G(x, y) \\ B(x, y) \end{bmatrix} \in \{0, 1, \dots, 255\}^{H \times W \times 3}
+            </div>
+            <p>
+              Where $(x, y)$ denotes the spatial coordinate in discrete pixel coordinates ($0 \le x < W, 0 \le y < H$), and the vector components correspond to Red, Green, and Blue photon reflectance quantized to 8-bit unsigned integers ($[0, 255]$).
+            </p>
+            <h4>Why Crop Foliar Pathology Requires Systematic DIP Preprocessing:</h4>
+            <ul style="padding-left:1.5rem; line-height:1.7; color:var(--text-body);">
+              <li><strong>Uncontrolled Ambient Sunlight:</strong> Natural outdoor conditions create extreme dynamic range variations, specular solar glare, and variable diurnal color temperatures.</li>
+              <li><strong>Scale & Working Distance Invariance:</strong> Handheld smartphone cameras and drone payloads capture crops at variable working distances, altering apparent symptom dimensions and boundary orientations.</li>
+              <li><strong>Complex Agricultural Clutter:</strong> Background soil textures, dried organic mulch, and overlapping canopy foliage introduce high-frequency visual noise.</li>
+            </ul>
+          </article>
+
+          <!-- Article 2 -->
+          <article class="docs-article-section" id="theory-resizing">
+            <h3>2. Spatial Resizing & Interpolation Theory</h3>
+            <p>
+              Field cameras capture high-resolution imagery (often exceeding $1024 \times 1024$ pixels), which requires spatial downsampling to canonical neural dimensions ($224 \times 224 \times 3$ or $128 \times 128 \times 3$) to maintain computational tractability.
+            </p>
+            <p>
+              Spatial downsampling utilizes <strong>Bilinear Interpolation</strong>, which computes the intensity value of a new continuous coordinate $(x', y')$ from its four nearest integer neighbors in the source grid:
+            </p>
+            <div class="dip-formula-box">
+              f(x', y') \approx (1 - \alpha)(1 - \beta)f(x_1, y_1) + \alpha(1 - \beta)f(x_2, y_1) + (1 - \alpha)\beta f(x_1, y_2) + \alpha\beta f(x_2, y_2)
+            </div>
+            <p>
+              <strong>Trade-off Analysis:</strong> While reducing spatial dimensions accelerates backward gradient propagation and lowers tensor memory, excessively downsampling (e.g. to $128 \times 128$ as in Custom CNN) can obliterate fine micro-pathologies such as serpentine leaf miner trails ($1-2$ pixels wide) or early fungal pycnidia specks.
+            </p>
+          </article>
+
+          <!-- Article 3 -->
+          <article class="docs-article-section" id="theory-augmentations">
+            <h3>3. Geometric and Radiometric Transformations</h3>
+            <p>
+              To teach deep networks rotational, scale, and illumination invariance, training pipelines implement isolated spatial and intensity augmentations directly on pixel arrays:
+            </p>
+            <ul style="padding-left:1.5rem; line-height:1.7; color:var(--text-body);">
+              <li><strong>Affine Reflection (Horizontal & Vertical Flips):</strong> Exploits bilateral plant symmetry and removes camera orientation bias.</li>
+              <li><strong>Affine Rotations ($\pm 90^\circ$):</strong> Simulates arbitrary drone yaw angles over crop canopies.</li>
+              <li><strong>Spatial Scaling Zoom ($\pm 20\%$):</strong> Simulates varying flight altitudes and camera-to-leaf working distances.</li>
+              <li><strong>Radiometric Contrast Adjustments ($\pm 15\%$):</strong> Expands or compresses local histogram variance without altering lesion boundary topology.</li>
+              <li><strong>Radiometric Brightness Shifts ($\pm 10\%$):</strong> Simulates transient cloud cover and solar illumination shifts.</li>
+            </ul>
+          </article>
+
+          <!-- Article 4 -->
+          <article class="docs-article-section" id="theory-convolution">
+            <h3>4. 2D Spatial Convolution & Receptive Field Mathematics</h3>
+            <p>
+              In digital image processing, 2D spatial filtering correlates an input feature map $X$ with a spatial filter kernel $K$ of spatial dimensions $M \times N$:
+            </p>
+            <div class="dip-formula-box">
+              Y(i, j) = (X * K)(i, j) = \sum_{m=-M/2}^{M/2} \sum_{n=-N/2}^{N/2} K(m, n) \cdot X(i + m, j + n)
+            </div>
+            <p>
+              In classical DIP, kernel $K$ is hand-crafted and mathematically fixed (e.g., Sobel kernels for oriented gradient detection, or Gaussian kernels for smoothing). In Deep Learning architectures, <strong>all kernel weights $K(m, n)$ are learnable parameters</strong> optimized via gradient descent to automatically extract pathognomonic lesion signatures.
+            </p>
+            <h4>Hierarchical Feature Abstraction:</h4>
+            <p>
+              Early layers with small $3 \times 3$ kernels extract low-level spatial primitives (crisp leaf edges, vein lines, color boundaries). Intermediate layers synthesize these into textural primitives (circular fungal spots, necrotic halos). Deep layers aggregate localized textures into semantic crop disease classes (e.g. systemic Cassava mosaic disfigurations or Tomato leaf curl).
+            </p>
+          </article>
+
+          <!-- Article 5 -->
+          <article class="docs-article-section" id="theory-architectures">
+            <h3>5. Transfer Learning vs. Handcrafted Features</h3>
+            <p>
+              Traditional computer vision pipelines rely on handcrafted visual descriptors such as <strong>Gray-Level Co-occurrence Matrices (GLCM)</strong> for texture, <strong>Color Histograms</strong>, and <strong>Local Binary Patterns (LBP)</strong> paired with Support Vector Machines (SVM). These methods frequently fail in agricultural field settings due to complex background soil, variable canopy lighting, and overlapping symptom morphologies.
+            </p>
+            <p>
+              In contrast, deep neural networks pretrained on ImageNet (1.4 million diverse images) transfer robust low- and mid-level visual representations to crop disease tasks. As demonstrated in this study:
+            </p>
+            <ul style="padding-left:1.5rem; line-height:1.7; color:var(--text-body);">
+              <li><strong>ResNet50 (87.35% Acc):</strong> Deep bottleneck residual connections eliminate the vanishing gradient problem, enabling rich 50-layer abstraction.</li>
+              <li><strong>EfficientNetB0 (85.77% Acc):</strong> Squeeze-and-Excitation channel attention dynamically recalibrates feature maps, amplifying channels with disease yellowing/necrosis while suppressing soil background noise.</li>
+              <li><strong>MobileNetV2 (83.72% Acc):</strong> Depthwise separable convolutions factorize spatial and channel filtering, enabling 5.4ms mobile edge inference.</li>
+              <li><strong>Custom CNN (44.35% Acc):</strong> Training from scratch on crop data alone illustrates the challenge of learning generic visual primitives without pre-trained priors.</li>
+            </ul>
+          </article>
+
+          <!-- Article 6 -->
+          <article class="docs-article-section" id="theory-pipeline-table">
+            <h3>6. Cross-Pipeline Dimension & Architectural Matrix</h3>
+            <p>
+              The comprehensive comparison table below synthesizes the image processing pipelines, input dimensions, and computational configurations implemented across all five models in this project:
+            </p>
+            <table class="docs-table">
+              <thead>
+                <tr>
+                  <th>Dimension</th>
+                  <th>Custom CNN</th>
+                  <th>MobileNetV2</th>
+                  <th>ResNet50</th>
+                  <th>EfficientNetB0</th>
+                  <th>VGG16</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Input Resolution</strong></td>
+                  <td>$128 \times 128 \times 3$</td>
+                  <td>$224 \times 224 \times 3$</td>
+                  <td>$224 \times 224 \times 3$</td>
+                  <td>$224 \times 224 \times 3$</td>
+                  <td>$224 \times 224 \times 3$</td>
+                </tr>
+                <tr>
+                  <td><strong>Pixel Range</strong></td>
+                  <td>Linear $[0.0, 1.0]$ via $X / 255$</td>
+                  <td>Zero-centered $[-1.0, 1.0]$</td>
+                  <td>BGR + ImageNet mean</td>
+                  <td>Raw $[0, 255]$ internal</td>
+                  <td>BGR + ImageNet mean</td>
+                </tr>
+                <tr>
+                  <td><strong>Backbone Origin</strong></td>
+                  <td>Scratch (Random Init)</td>
+                  <td>Pretrained ImageNet</td>
+                  <td>Pretrained ImageNet</td>
+                  <td>Pretrained ImageNet</td>
+                  <td>Pretrained ImageNet</td>
+                </tr>
+                <tr>
+                  <td><strong>Total Parameters</strong></td>
+                  <td>$\approx 1.84\text{M}$</td>
+                  <td>$\approx 2.60\text{M}$</td>
+                  <td>$\approx 24.1\text{M}$</td>
+                  <td>$\approx 4.38\text{M}$</td>
+                  <td>$\approx 138\text{M}$</td>
+                </tr>
+                <tr>
+                  <td><strong>Test Accuracy</strong></td>
+                  <td>44.35%</td>
+                  <td>83.72%</td>
+                  <td><strong>87.35% (Best)</strong></td>
+                  <td>85.77%</td>
+                  <td>77.13%</td>
+                </tr>
+                <tr>
+                  <td><strong>Inference Latency</strong></td>
+                  <td><strong>1.89 ms</strong></td>
+                  <td><strong>5.41 ms (Edge)</strong></td>
+                  <td>26.6 ms</td>
+                  <td>9.82 ms</td>
+                  <td>63.8 ms</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+
+          <!-- Article 7 -->
+          <article class="docs-article-section" id="theory-degradation">
+            <h3>7. Image Quality Degradation & Field Robustness</h3>
+            <p>
+              In practical deployment, cameras encounter environmental degradations. The project's degradation experiment demonstrates:
+            </p>
+            <ul style="padding-left:1.5rem; line-height:1.7; color:var(--text-body);">
+              <li><strong>High-Frequency Noise (Gaussian $\sigma=25$):</strong> Disrupts low-level edge kernels. Modern models with Global Average Pooling (ResNet, EfficientNet, MobileNet) retain sufficient semantic context to maintain correct classifications.</li>
+              <li><strong>Severe Underexposure / Shadow:</strong> Compresses the dynamic histogram range, but models trained with contrast/brightness augmentations exhibit superior resilience.</li>
+              <li><strong>Optical Defocus Blur:</strong> Suppresses high-frequency lesion borders; models that leverage broad spatial color distributions (chlorosis) retain partial classification capability.</li>
+            </ul>
+          </article>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       Full-Screen Image Modal Viewer
+       ========================================================================== -->
+  <div class="modal-overlay" id="imageModalOverlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4 id="modalCaption" style="font-size:1.05rem; font-weight:700;">Visual Artifact</h4>
+        <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <img id="modalImg" class="modal-img" src="" alt="Full Screen Visual Artifact" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       Footer
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-logo" style="margin-bottom:1rem;">
+            <div class="brand-icon">🌱</div>
+            <div class="brand-text">Agri<span>Vision</span> DIP</div>
+          </div>
+          <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.6;">
+            A rigorous digital image processing and multi-model deep learning benchmark for automated precision crop pathology across Cashew, Cassava, Maize, and Tomato.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Notebook Sources</h5>
+          <ul class="footer-links">
+            <li><a href="Comparison.ipynb">Comparison.ipynb</a></li>
+            <li><a href="ResNet50.ipynb">ResNet50.ipynb</a></li>
+            <li><a href="MobileNet.ipynb">MobileNet.ipynb</a></li>
+            <li><a href="EfficientNet.ipynb">EfficientNet.ipynb</a></li>
+            <li><a href="VGG16.ipynb">VGG16.ipynb</a></li>
+            <li><a href="CustomCNN.ipynb">CustomCNN.ipynb</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Model Artifacts (.keras)</h5>
+          <ul class="footer-links">
+            <li><a href="best_resnet50.keras">best_resnet50.keras (107 MB)</a></li>
+            <li><a href="best_efficientnetb0.keras">best_efficientnetb0.keras (21 MB)</a></li>
+            <li><a href="best_mobilenetv2.keras">best_mobilenetv2.keras (25 MB)</a></li>
+            <li><a href="best_vgg16.keras">best_vgg16.keras (214 MB)</a></li>
+            <li><a href="best_custom_cnn.keras">best_custom_cnn.keras (20 MB)</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Datasets & Splits</h5>
+          <ul class="footer-links">
+            <li><a href="#atlas">22 Foliar Pathology Classes</a></li>
+            <li><a href="#atlas">17,698 Training Samples (70%)</a></li>
+            <li><a href="#atlas">3,791 Validation Samples (15%)</a></li>
+            <li><a href="#atlas">3,795 Test Benchmark (15%)</a></li>
+            <li><a href="model_comparison_results.csv">model_comparison_results.csv</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 AgriVision DIP Intelligence &bull; Built with complete explanations from notebooks and models.</div>
+        <div style="display:flex; gap:1.25rem;">
+          <a href="#overview">Back to Top &uarr;</a>
+          <a href="#benchmark">Benchmark</a>
+          <a href="#dip-lab">DIP Lab</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Unified Data and Application Logic Scripts -->
+  <script src="web_assets/dip_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

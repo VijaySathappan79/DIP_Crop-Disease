@@ -1,0 +1,32 @@
+# Git Ignore for AgriVision DIP Repository
+
+# Python cache & virtualenvs
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+venv/
+env/
+ENV/
+
+# Large Model Binaries (> 20MB)
+# Models can be reproduced using the attached notebooks or hosted via GitHub Releases
+*.keras
+*.h5
+*.tflite
+*.pt
+*.onnx
+
+# Large Raw Datasets (25,000+ images, ~2.5 GB)
+dataset/
+Dataset_Split/
+extras/
+*.zip
+
+# Temporary / OS files
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+scratch/
